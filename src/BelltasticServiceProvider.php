@@ -2,9 +2,9 @@
 
 namespace Belltastic;
 
+use Belltastic\Belltastic\Commands\BelltasticCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Belltastic\Belltastic\Commands\BelltasticCommand;
 
 class BelltasticServiceProvider extends PackageServiceProvider
 {

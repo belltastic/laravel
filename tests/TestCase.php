@@ -2,9 +2,9 @@
 
 namespace Belltastic\Tests;
 
+use Belltastic\BelltasticServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Belltastic\BelltasticServiceProvider;
 
 class TestCase extends Orchestra
 {
