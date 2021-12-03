@@ -4,7 +4,7 @@ namespace Belltastic;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Belltastic\Belltastic\Commands\BelltasticCommand;
+use Belltastic\Commands\BelltasticCommand;
 
 class BelltasticServiceProvider extends PackageServiceProvider
 {

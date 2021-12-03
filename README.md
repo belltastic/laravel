@@ -1,4 +1,4 @@
-# Laravel helper package to easily send Belltastic Notifications
+# Belltastic Notifications for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/belltastic/laravel.svg?style=flat-square)](https://packagist.org/packages/belltastic/laravel)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/run-tests?label=tests)](https://github.com/belltastic/laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -53,6 +53,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
+- [Belltastic Team](https://belltastic.com)
 - [Arunas Skirius](https://github.com/arukompas)
 - [All Contributors](../../contributors)
 
