@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Belltastic\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class BelltasticCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel';
 
     public $description = 'My command';
 

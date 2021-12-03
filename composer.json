@@ -1,22 +1,27 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "belltastic/laravel",
+    "description": "Laravel helper package to easily send Belltastic Notifications",
     "keywords": [
-        ":vendor_name",
+        "belltastic",
         "laravel",
-        ":package_slug"
+        "notifications"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/belltastic/laravel",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Belltastic",
+            "email": "info@belltastic.com",
+            "role": "Owner"
+        },
+        {
+            "name": "Arunas Skirius",
+            "email": "arunas@belltastic.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^7.2|^8.0",
         "spatie/laravel-package-tools": "^1.9.2",
         "illuminate/contracts": "^8.73"
     },
@@ -34,13 +39,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Belltastic\\": "src",
+            "Belltastic\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Belltastic\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -54,10 +59,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Belltastic\\BelltasticServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "Belltastic": "Belltastic\\Facades\\Belltastic"
             }
         }
     },
