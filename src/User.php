@@ -7,6 +7,8 @@ class User extends ApiResource
     use ApiOperations\Find;
     use ApiOperations\All;
     use ApiOperations\Create;
+    use ApiOperations\Update;
+    use ApiOperations\Delete;
 
     public function listUrl(): string
     {

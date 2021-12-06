@@ -122,9 +122,87 @@ it('can create a user', function () {
     assertRequestIs(
         getFirstRequest(),
         'post',
-        '/api/v1/project/'.PROJECT_ID.'/users',
+        '/api/v1/project/' . PROJECT_ID . '/users',
         $userData
     );
     assertEquals('Test name', $user->name);
     assertEquals(PROJECT_ID, $user->project_id);
+});
+
+it('can update user with the update() method', function () {
+    $newData = [
+        'name' => 'New name',
+        'email' => 'newemail@example.com',
+    ];
+    queueMockResponse(200, array_merge(SINGLE_USER_DATA, $newData));
+    $user = new User(SINGLE_USER_DATA);
+
+    $user->update($newData);
+
+    assertRequestCount(1);
+    assertRequestIs(
+        getFirstRequest(),
+        'put', '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
+        array_merge(SINGLE_USER_DATA, $newData)
+    );
+});
+
+it('can update user with the save() method', function () {
+    $newData = [
+        'name' => 'New name',
+        'email' => 'newemail@example.com',
+    ];
+    queueMockResponse(200, array_merge(SINGLE_USER_DATA, $newData));
+    $user = new User(SINGLE_USER_DATA);
+
+    $user->name = $newData['name'];
+    $user->email = $newData['email'];
+    $user->save();
+
+    assertRequestCount(1);
+    assertRequestIs(
+        getFirstRequest(),
+        'put', '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
+        array_merge(SINGLE_USER_DATA, $newData)
+    );
+});
+
+it('can soft delete a user', function () {
+    $user = new User(SINGLE_USER_DATA);
+    $deletedAt = now()->micro(0);
+    queueMockResponse(200, [
+        'message' => 'User archived',
+        'data' => array_merge(SINGLE_USER_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
+    ]);
+
+    $user->delete();
+
+    assertRequestCount(1);
+    assertRequestIs(
+        getFirstRequest(),
+        'delete',
+        '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
+        []
+    );
+    assertEquals($deletedAt, $user->deleted_at);
+});
+
+it('can force delete a user', function () {
+    $user = new User(SINGLE_USER_DATA);
+    $deletedAt = now()->micro(0);
+    queueMockResponse(200, [
+        'message' => 'User deleted',
+        'data' => array_merge(SINGLE_USER_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
+    ]);
+
+    $user->forceDelete();
+
+    assertRequestCount(1);
+    assertRequestIs(
+        getFirstRequest(),
+        'delete',
+        '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
+        ['force' => true]
+    );
+    assertEquals($deletedAt, $user->deleted_at);
 });
