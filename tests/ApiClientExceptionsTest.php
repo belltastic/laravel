@@ -13,7 +13,7 @@ use function PHPUnit\Framework\assertTrue;
 
 it('throws Unauthorized exception if not authenticated properly', function () {
     $this->queueMockResponse(401, ['message' => 'Unauthenticated. With a custom message.']);
-    $client = new ApiClient;
+    $client = new ApiClient();
 
     try {
         $client->request('get', 'v1/projects');
@@ -26,7 +26,7 @@ it('throws Unauthorized exception if not authenticated properly', function () {
 
 it('throws a NotFound exception if a model was not found', function () {
     $this->queueMockResponse(404, ['message' => 'Model not found.']);
-    $client = new ApiClient;
+    $client = new ApiClient();
 
     try {
         $client->request('get', 'v1/project/123');
@@ -39,7 +39,7 @@ it('throws a NotFound exception if a model was not found', function () {
 
 it('throws a Forbidden exception if the user does not have access to the resource', function () {
     $this->queueMockResponse(403, ['message' => 'Forbidden. You do not have the required permissions.']);
-    $client = new ApiClient;
+    $client = new ApiClient();
 
     try {
         $client->request('get', 'v1/project/123');
@@ -55,17 +55,17 @@ it('throws a ValidationException if the request does not pass validation', funct
         'message' => 'The given data was invalid.',
         'errors' => [
             'name' => [
-                'The name field is required.'
+                'The name field is required.',
             ],
             'email' => [
-                'The email must be a valid email address.'
+                'The email must be a valid email address.',
             ],
             'avatar_url' => [
-                'The avatar url must be a string.'
-            ]
-        ]
+                'The avatar url must be a string.',
+            ],
+        ],
     ]);
-    $client = new ApiClient;
+    $client = new ApiClient();
 
     try {
         $client->request('get', 'v1/project/123');
@@ -78,17 +78,17 @@ it('throws a ValidationException if the request does not pass validation', funct
         assertCount(3, $exception->getErrors());
         assertEquals([
             'name' => [
-                'The name field is required.'
+                'The name field is required.',
             ],
             'email' => [
-                'The email must be a valid email address.'
+                'The email must be a valid email address.',
             ],
             'avatar_url' => [
-                'The avatar url must be a string.'
-            ]
+                'The avatar url must be a string.',
+            ],
         ], $exception->getErrors());
         assertEquals([
-            'The email must be a valid email address.'
+            'The email must be a valid email address.',
         ], $exception->getErrors('email'));
         assertTrue($exception->hasError('name'));
         assertFalse($exception->hasError('false_field'));

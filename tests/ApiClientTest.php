@@ -47,7 +47,7 @@ it('can add custom headers on requests', function () {
 
 it('contains the base URI from configuration if not provided', function () {
     config(['belltastic.base_uri' => 'https://test.example.com']);
-    $client = new ApiClient;
+    $client = new ApiClient();
 
     $client->get('v1/projects');
 

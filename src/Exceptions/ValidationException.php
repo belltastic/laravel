@@ -15,7 +15,7 @@ class ValidationException extends \Exception
 
     public function getErrors($name = null): array
     {
-        if (!is_null($name)) {
+        if (! is_null($name)) {
             return $this->errors[$name] ?? [];
         }
 
