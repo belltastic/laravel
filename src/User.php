@@ -6,7 +6,7 @@ class User extends ApiResource
 {
     use ApiOperations\Find;
     use ApiOperations\All;
-    public const OBJECT_NAME = 'user';
+    use ApiOperations\Create;
 
     public function listUrl(): string
     {
@@ -31,5 +31,10 @@ class User extends ApiResource
         $instance = new static(['project_id' => $project_id]);
 
         return $instance->_all($options);
+    }
+
+    public static function create($project_id, $attributes = [], $options = [])
+    {
+        return (new static(['project_id' => $project_id]))->_create($attributes, $options);
     }
 }

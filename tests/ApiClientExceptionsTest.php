@@ -12,7 +12,7 @@ use function PHPUnit\Framework\assertNull;
 use function PHPUnit\Framework\assertTrue;
 
 it('throws Unauthorized exception if not authenticated properly', function () {
-    $this->queueMockResponse(401, ['message' => 'Unauthenticated. With a custom message.']);
+    queueMockResponse(401, ['message' => 'Unauthenticated. With a custom message.']);
     $client = new ApiClient();
 
     try {
@@ -25,7 +25,7 @@ it('throws Unauthorized exception if not authenticated properly', function () {
 });
 
 it('throws a NotFound exception if a model was not found', function () {
-    $this->queueMockResponse(404, ['message' => 'Model not found.']);
+    queueMockResponse(404, ['message' => 'Model not found.']);
     $client = new ApiClient();
 
     try {
@@ -38,7 +38,7 @@ it('throws a NotFound exception if a model was not found', function () {
 });
 
 it('throws a Forbidden exception if the user does not have access to the resource', function () {
-    $this->queueMockResponse(403, ['message' => 'Forbidden. You do not have the required permissions.']);
+    queueMockResponse(403, ['message' => 'Forbidden. You do not have the required permissions.']);
     $client = new ApiClient();
 
     try {
@@ -51,7 +51,7 @@ it('throws a Forbidden exception if the user does not have access to the resourc
 });
 
 it('throws a ValidationException if the request does not pass validation', function () {
-    $this->queueMockResponse(422, [
+    queueMockResponse(422, [
         'message' => 'The given data was invalid.',
         'errors' => [
             'name' => [

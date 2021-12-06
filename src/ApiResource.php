@@ -14,8 +14,8 @@ abstract class ApiResource extends BelltasticObject
         $this->fill($attributes);
         $this->_options = $options;
 
-        if (array_key_exists('apiKey', $options)) {
-            $this->_apiKey = $options['apiKey'];
+        if (array_key_exists('api_key', $options)) {
+            $this->_apiKey = $options['api_key'];
         }
     }
 

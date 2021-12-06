@@ -10,8 +10,6 @@ class Project extends ApiResource
     use ApiOperations\Update;
     use ApiOperations\Delete;
 
-    public const OBJECT_NAME = 'project';
-
     protected $paginated = false;
 
     public function listUrl(): string

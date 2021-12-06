@@ -5,7 +5,7 @@ use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
 
 beforeEach(function () {
-    $this->queueMockResponse(200, []);
+    queueMockResponse(200, []);
 });
 
 it('expects JSON response', function () {

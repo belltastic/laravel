@@ -5,6 +5,26 @@ use GuzzleHttp\Psr7\Request;
 
 uses(TestCase::class)->in(__DIR__);
 
+function mockApiClient()
+{
+    test()->mockApiClient();
+}
+
+function resetApiClient()
+{
+    test()->resetApiClient();
+}
+
+function clearRequests()
+{
+    test()->clearRequests();
+}
+
+function queueMockResponse(int $statusCode, $data = [], $headers = [])
+{
+    return test()->queueMockResponse($statusCode, $data, $headers);
+}
+
 function getFirstRequest(): ?Request
 {
     return test()->getFirstRequest();

@@ -30,7 +30,7 @@ const MULTIPLE_PROJECTS_DATA = [
 ];
 
 it('can return a single package', function () {
-    $this->queueMockResponse(200, SINGLE_PROJECT_DATA);
+    queueMockResponse(200, SINGLE_PROJECT_DATA);
 
     $project = Project::find(SINGLE_PROJECT_DATA['id']);
 
@@ -43,7 +43,7 @@ it('can return a single package', function () {
 });
 
 it('can return multiple packages', function () {
-    $this->queueMockResponse(200, MULTIPLE_PROJECTS_DATA);
+    queueMockResponse(200, MULTIPLE_PROJECTS_DATA);
 
     $projects = Project::all();
 
@@ -66,7 +66,7 @@ it('can create a new project', function () {
         'name' => 'New Project',
         'default' => true,
     ];
-    $this->queueMockResponse(201, array_merge(SINGLE_PROJECT_DATA, $requestData));
+    queueMockResponse(201, array_merge(SINGLE_PROJECT_DATA, $requestData));
 
     $project = Project::create($requestData);
 
@@ -83,7 +83,7 @@ it('can update a project with the update() method', function () {
         'default' => true,
     ];
     $project = new Project(SINGLE_PROJECT_DATA);
-    $this->queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
+    queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
 
     $project->update($newData);
 
@@ -102,7 +102,7 @@ it('can update a project by calling save() method', function () {
         'default' => true,
     ];
     $project = new Project(SINGLE_PROJECT_DATA);
-    $this->queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
+    queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
 
     $project->name = $newData['name'];
     $project->default = $newData['default'];
@@ -120,7 +120,7 @@ it('can update a project by calling save() method', function () {
 it('can soft delete a project', function () {
     $project = new Project(SINGLE_PROJECT_DATA);
     $deletedAt = now()->micro(0);
-    $this->queueMockResponse(200, [
+    queueMockResponse(200, [
         'message' => 'Project archived',
         'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
@@ -135,7 +135,7 @@ it('can soft delete a project', function () {
 it('can force delete a project', function () {
     $project = new Project(SINGLE_PROJECT_DATA);
     $deletedAt = now()->micro(0);
-    $this->queueMockResponse(200, [
+    queueMockResponse(200, [
         'message' => 'Project deleted',
         'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
