@@ -10,6 +10,21 @@ function getFirstRequest(): ?Request
     return test()->getFirstRequest();
 }
 
+function getLastRequest(): ?Request
+{
+    return test()->getLastRequest();
+}
+
+function getRequests(): array
+{
+    return test()->getRequests();
+}
+
+function assertRequestCount(int $expectedCount)
+{
+    test()->assertRequestCount($expectedCount);
+}
+
 function assertRequestIs(Request $request = null, string $method = null, string $path = null, array $data = null)
 {
     \PHPUnit\Framework\assertNotNull($request);

@@ -34,6 +34,7 @@ it('can return a single package', function () {
 
     $project = Project::find(SINGLE_PROJECT_DATA['id']);
 
+    assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'get', '/api/v1/project/'.SINGLE_PROJECT_DATA['id']);
     expect($project)->toBeInstanceOf(Project::class);
     foreach (SINGLE_PROJECT_DATA as $key => $value) {
@@ -46,6 +47,7 @@ it('can return multiple packages', function () {
 
     $projects = Project::all();
 
+    assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'get', '/api/v1/projects');
     expect($projects)->toBeCollection();
     assertCount(2, $projects);
@@ -68,6 +70,7 @@ it('can create a new project', function () {
 
     $project = Project::create($requestData);
 
+    assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'post', '/api/v1/projects', $requestData);
     assertInstanceOf(Project::class, $project);
     assertEquals($requestData['name'], $project->name);
@@ -84,6 +87,7 @@ it('can update a project with the update() method', function () {
 
     $project->update($newData);
 
+    assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
         'put',
@@ -104,6 +108,7 @@ it('can update a project by calling save() method', function () {
     $project->default = $newData['default'];
     $project->save();
 
+    assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
         'put',
@@ -122,6 +127,7 @@ it('can soft delete a project', function () {
 
     $project->delete();
 
+    assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'delete', '/api/v1/project/'.SINGLE_PROJECT_DATA['id'], []);
     assertEquals($deletedAt, $project->deleted_at);
 });
@@ -136,6 +142,7 @@ it('can force delete a project', function () {
 
     $project->forceDelete();
 
+    assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
         'delete',

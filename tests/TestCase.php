@@ -71,10 +71,27 @@ class TestCase extends Orchestra
         ));
     }
 
+    public function getRequests(): array
+    {
+        return array_map(function ($transaction) {
+            return $transaction['request'];
+        }, $this->requestHistory);
+    }
+
     public function getFirstRequest(): ?Request
     {
-        list('request' => $request) = $this->requestHistory[0];
+        return $this->getRequests()[0];
+    }
 
-        return $request;
+    public function getLastRequest(): ?Request
+    {
+        $requests = $this->getRequests();
+
+        return $requests[count($requests) - 1];
+    }
+
+    public function assertRequestCount(int $expectedCount)
+    {
+        $this->assertCount($expectedCount, $this->getRequests());
     }
 }
