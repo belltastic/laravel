@@ -27,14 +27,13 @@ trait All
                 list('data' => $data, 'links' => $links, 'meta' => $meta) = $client->get($this->listUrl());
                 $data = array_reverse($data);   // prepare for `array_pop` later
 
-                while (!empty($data) || !empty($links['next'])) {
-
+                while (! empty($data) || ! empty($links['next'])) {
                     if (empty($data) && $nextPage = $links['next']) {
                         list('data' => $data, 'links' => $links, 'meta' => $meta) = $client->get($nextPage);
                         $data = array_reverse($data);   // prepare for `array_pop` later
                     }
 
-                    $instance = new static;
+                    $instance = new static();
                     $instance->fill(array_pop($data));
                     yield $instance;
                 }
