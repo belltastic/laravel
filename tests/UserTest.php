@@ -71,12 +71,8 @@ it('can retrieve multiple users', function () {
     queueMockResponse(200, MULTIPLE_USERS_DATA);
     // second page
     queueMockResponse(200, [
-        'data' => [
-            SINGLE_USER_DATA,
-        ],
-        'links' => [
-            'next' => null,
-        ],
+        'data' => [SINGLE_USER_DATA],
+        'links' => ['next' => null],
         'meta' => [],
     ]);
 
