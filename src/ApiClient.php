@@ -65,10 +65,10 @@ class ApiClient
                 'base_uri' => Str::finish($this->_options->base_uri, '/'),
                 'json' => $data,
                 'headers' => array_merge([
-                    'User-Agent' => ApiClient::USER_AGENT,
+                    'User-Agent' => $this->_options->user_agent ?? ApiClient::USER_AGENT,
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$this->_apiKey,
-                ], $headers),
+                ], $this->_options->headers ?? [], $headers),
             ]);
         } catch (\Exception $exception) {
             throw $exception;
