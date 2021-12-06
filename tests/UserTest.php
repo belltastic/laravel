@@ -25,7 +25,7 @@ const MULTIPLE_USERS_DATA = [
             "name" => "John Doe",
             "avatar_url" => "https:\/\/via.placeholder.com\/80x80.png\/0033aa?text=john+doe",
             "project_id" => 1,
-            "unread_notifications_count" => 40
+            "unread_notifications_count" => 40,
         ],
         [
             "id" => "19a1ef31-5119-3fdc-b98f-9872357e2801",
@@ -34,19 +34,19 @@ const MULTIPLE_USERS_DATA = [
             "name" => "Jane Doe",
             "avatar_url" => "https:\/\/via.placeholder.com\/80x80.png\/007744?text=jane+doe",
             "project_id" => 1,
-            "unread_notifications_count" => 40
+            "unread_notifications_count" => 40,
         ],
     ],
     "links" => [
         "first" => null,
         "last" => null,
         "prev" => null,
-        "next" => "https:\/\/belltastic.com\/api\/v1\/project\/1\/users?cursor=eyJleHRlcm5hbF9pZCI6IjUzNmU1OWVjLTkyYzItMzU0Ni1iZDA3LWU3NzUzNmZhZjYzYSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+        "next" => "https:\/\/belltastic.com\/api\/v1\/project\/1\/users?cursor=eyJleHRlcm5hbF9pZCI6IjUzNmU1OWVjLTkyYzItMzU0Ni1iZDA3LWU3NzUzNmZhZjYzYSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
     ],
     "meta" => [
         "path" => "https:\/\/belltastic.com\/api\/v1\/project\/1\/users",
-        "per_page" => 10
-    ]
+        "per_page" => 10,
+    ],
 ];
 
 it('can retrieve a single user', function () {

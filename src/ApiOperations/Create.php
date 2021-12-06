@@ -17,6 +17,6 @@ trait Create
 
     public static function create($attributes = [], $options = [])
     {
-        return (new static)->_create($attributes, $options);
+        return (new static())->_create($attributes, $options);
     }
 }
