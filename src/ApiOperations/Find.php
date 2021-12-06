@@ -15,7 +15,7 @@ trait Find
      */
     public function refresh()
     {
-        $client = new ApiClient($this->_apiKey, $this->_options);
+        $client = new ApiClient($this->_apiKey, $this->_options ?? []);
 
         $response = $client->get($this->instanceUrl());
 

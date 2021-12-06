@@ -10,7 +10,7 @@ trait Update
     {
         $this->fill($attributes);
 
-        $client = new ApiClient($options['apiKey'] ?? null, $options);
+        $client = new ApiClient($options['apiKey'] ?? null, $options ?? []);
         $client->put($this->instanceUrl(), $this->toArray(), $options['headers'] ?? []);
 
         return $this;
@@ -18,7 +18,7 @@ trait Update
 
     public function save($options = [])
     {
-        $client = new ApiClient($options['apiKey'] ?? null, $options);
+        $client = new ApiClient($options['apiKey'] ?? null, $options ?? []);
         $client->put($this->instanceUrl(), $this->toArray(), $options['headers'] ?? []);
 
         return true;

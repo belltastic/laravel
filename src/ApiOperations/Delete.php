@@ -9,7 +9,7 @@ trait Delete
 {
     public function delete($options = [])
     {
-        $client = new ApiClient($options['apiKey'] ?? null, $options);
+        $client = new ApiClient($options['apiKey'] ?? null, $options ?? []);
         $response = $client->delete($this->instanceUrl(), $options['headers'] ?? []);
         $this->fill(['deleted_at' => Date::parse($response['data']['deleted_at'])]);
 
@@ -18,7 +18,7 @@ trait Delete
 
     public function forceDelete($options = [])
     {
-        $client = new ApiClient($options['apiKey'] ?? null, $options);
+        $client = new ApiClient($options['apiKey'] ?? null, $options ?? []);
         $response = $client->delete($this->instanceUrl(), ['force' => true], $options['headers'] ?? []);
         $this->fill(['deleted_at' => Date::parse($response['data']['deleted_at'])]);
 

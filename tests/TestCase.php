@@ -59,6 +59,15 @@ class TestCase extends Orchestra
         }
     }
 
+    public function resetApiClient(): void
+    {
+        $this->app->bind('belltastic-api-client', function () {
+            return new Client;
+        });
+        $this->requestHistory = [];
+        $this->clientMock = null;
+    }
+
     public function queueMockResponse($statusCode, $data = [], $headers = [])
     {
         $this->mockApiClient();

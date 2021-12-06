@@ -14,7 +14,7 @@ trait All
     {
         $client = new ApiClient(
             $options['apiKey'] ?? null,
-            $options
+            $options ?? []
         );
 
         if ($this->paginated) {

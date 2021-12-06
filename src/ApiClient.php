@@ -2,7 +2,13 @@
 
 namespace Belltastic;
 
+use Belltastic\Exceptions\ForbiddenException;
+use Belltastic\Exceptions\NotFoundException;
+use Belltastic\Exceptions\UnauthorizedException;
+use Belltastic\Exceptions\ValidationException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Str;
 
 class ApiClient
@@ -18,7 +24,7 @@ class ApiClient
     /** @var Client */
     private $_client;
 
-    public function __construct($apiKey, $options = [])
+    public function __construct(string $apiKey = null, array $options = [])
     {
         $this->_apiKey = $apiKey;
         if (! $this->_apiKey) {
@@ -54,7 +60,11 @@ class ApiClient
      * @param array $data
      * @param array $headers
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws ValidationException
+     * @throws GuzzleException
      */
     public function request(string $method, string $path, array $data = [], array $headers = [])
     {
@@ -70,7 +80,24 @@ class ApiClient
                     'Authorization' => 'Bearer '.$this->_apiKey,
                 ], $this->_options->headers ?? [], $headers),
             ]);
-        } catch (\Exception $exception) {
+        } catch (ClientException $exception) {
+            if ($response = $exception->getResponse()) {
+                $body = json_decode((string) $response->getBody(), true);
+
+                if ($response->getStatusCode() === 401) {
+                    throw new UnauthorizedException($body['message'] ?? $exception->getMessage());
+                } elseif ($response->getStatusCode() === 403) {
+                    throw new ForbiddenException($body['message'] ?? $exception->getMessage());
+                } elseif ($response->getStatusCode() === 404) {
+                    throw new NotFoundException($body['message'] ?? $exception->getMessage());
+                } elseif ($response->getStatusCode() === 422) {
+                    throw new ValidationException(
+                        $body['message'] ?? $exception->getMessage(),
+                        $body['errors'] ?? []
+                    );
+                }
+            }
+
             throw $exception;
         }
 

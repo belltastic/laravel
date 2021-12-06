@@ -8,7 +8,7 @@ trait Create
 {
     public static function create($attributes = [], $options = [])
     {
-        $client = new ApiClient($options['apiKey'] ?? null, $options);
+        $client = new ApiClient($options['apiKey'] ?? null, $options ?? []);
 
         $response = $client->post((new static())->listUrl(), $attributes, $options['headers'] ?? []);
 
