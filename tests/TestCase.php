@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -68,5 +69,12 @@ class TestCase extends Orchestra
             ], $headers),
             json_encode($data)
         ));
+    }
+
+    public function getFirstRequest(): ?Request
+    {
+        list('request' => $request) = $this->requestHistory[0];
+
+        return $request;
     }
 }

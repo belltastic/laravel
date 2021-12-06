@@ -8,6 +8,8 @@ class Project extends ApiResource
     use ApiOperations\Find;
     use ApiOperations\Create;
     use ApiOperations\Update;
+    use ApiOperations\Delete;
+
     public const OBJECT_NAME = 'project';
 
     protected $paginated = false;

@@ -92,8 +92,8 @@ class ApiClient
         return $this->request('PUT', $path, $data, $headers);
     }
 
-    public function delete($path, $headers = [])
+    public function delete($path, $data = [], $headers = [])
     {
-        return $this->request('DELETE', $path, [], $headers);
+        return $this->request('DELETE', $path, $data, $headers);
     }
 }
