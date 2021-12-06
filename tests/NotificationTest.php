@@ -34,7 +34,7 @@ const MULTIPLE_NOTIFICATIONS_DATA = [
             "action_url" => null,
             "seen_at" => null,
             "read_at" => null,
-            "created_at" => "2021-11-24T01:55:36+00:00"
+            "created_at" => "2021-11-24T01:55:36+00:00",
         ],
         [
             "id" => "9505f16b-39ff-42a0-bd4c-5b9b784f2a63",
@@ -47,19 +47,19 @@ const MULTIPLE_NOTIFICATIONS_DATA = [
             "action_url" => "http:\/\/west.com\/vitae-sed-nostrum-sint",
             "seen_at" => null,
             "read_at" => null,
-            "created_at" => "2021-11-18T01:31:12+00:00"
-        ]
+            "created_at" => "2021-11-18T01:31:12+00:00",
+        ],
     ],
     "links" => [
         "first" => null,
         "last" => null,
         "prev" => null,
-        "next" => "http:\/\/belltastic.test\/api\/v1\/project\/1\/user\/123\/notifications?per_page=10&order=desc&cursor=eyJpZCI6Ijk1MDVmMTZiLTM4NmQtNGVjNi05NzY5LWZkYTY2NTliZDIyMyIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+        "next" => "http:\/\/belltastic.test\/api\/v1\/project\/1\/user\/123\/notifications?per_page=10&order=desc&cursor=eyJpZCI6Ijk1MDVmMTZiLTM4NmQtNGVjNi05NzY5LWZkYTY2NTliZDIyMyIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
     ],
     "meta" => [
         "path" => "http:\/\/belltastic.test\/api\/v1\/project\/1\/user\/123\/notifications",
-        "per_page" => 10
-    ]
+        "per_page" => 10,
+    ],
 ];
 
 it('can get individual notification', function () {
@@ -85,7 +85,7 @@ it('can list all notifications', function () {
     queueMockResponse(200, [
         'data' => [SINGLE_NOTIFICATION_DATA],
         'links' => ['next' => null],
-        'meta' => []
+        'meta' => [],
     ]);
 
     $notifications = Notification::all(PROJECT_ID, USER_ID);

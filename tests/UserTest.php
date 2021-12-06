@@ -138,7 +138,8 @@ it('can update user with the update() method', function () {
     assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
-        'put', '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
+        'put',
+        '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
         array_merge(SINGLE_USER_DATA, $newData)
     );
 });
@@ -158,7 +159,8 @@ it('can update user with the save() method', function () {
     assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
-        'put', '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
+        'put',
+        '/api/v1/project/' . PROJECT_ID . '/user/' . SINGLE_USER_DATA['id'],
         array_merge(SINGLE_USER_DATA, $newData)
     );
 });
