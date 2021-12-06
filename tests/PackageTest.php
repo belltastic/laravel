@@ -18,15 +18,15 @@ const MULTIPLE_PROJECTS_DATA = [
         "name" => "Default",
         "default" => false,
         "hmac_required" => false,
-        "team_id" => 1
+        "team_id" => 1,
     ],
     [
         "id" => 2,
         "name" => "Second project",
         "default" => true,
         "hmac_required" => false,
-        "team_id" => 1
-    ]
+        "team_id" => 1,
+    ],
 ];
 
 it('can return a single package', function () {

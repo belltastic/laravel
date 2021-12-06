@@ -6,7 +6,7 @@ use Belltastic\ApiClient;
 
 trait Find
 {
-    abstract function instanceUrl();
+    abstract public function instanceUrl();
 
     /**
      * Re-fetch the model from the API

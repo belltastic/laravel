@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class ApiClient
 {
-    const USER_AGENT = 'Belltastic-PHP-Laravel/1.0';
+    public const USER_AGENT = 'Belltastic-PHP-Laravel/1.0';
 
     /** @var string|null */
     private $_apiKey;
@@ -21,7 +21,7 @@ class ApiClient
     public function __construct($apiKey, $options = [])
     {
         $this->_apiKey = $apiKey;
-        if (!$this->_apiKey) {
+        if (! $this->_apiKey) {
             $this->_apiKey = Belltastic::getApiKey();
         }
 

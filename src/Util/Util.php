@@ -4,7 +4,7 @@ namespace Belltastic\Util;
 
 abstract class Util
 {
-    static $isMbstringAvailable;
+    public static $isMbstringAvailable;
 
     /**
      * @param mixed|string $value a string to UTF8-encode
@@ -17,7 +17,7 @@ abstract class Util
         if (null === self::$isMbstringAvailable) {
             self::$isMbstringAvailable = \function_exists('mb_detect_encoding');
 
-            if (!self::$isMbstringAvailable) {
+            if (! self::$isMbstringAvailable) {
                 \trigger_error('It looks like the "mbstring" PHP extension is not enabled. ' .
                     'UTF-8 strings will not be properly encoded. Ask your system ' .
                     'administrator to enable the "mbstring" extension, or write to ' .

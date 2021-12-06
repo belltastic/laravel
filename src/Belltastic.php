@@ -4,7 +4,7 @@ namespace Belltastic;
 
 class Belltastic
 {
-    static $apiKey;
+    public static $apiKey;
 
     public static function setApiKey($apiKey)
     {

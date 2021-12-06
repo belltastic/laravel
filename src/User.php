@@ -4,10 +4,9 @@ namespace Belltastic;
 
 class User extends ApiResource
 {
-    const OBJECT_NAME = 'user';
-
     use ApiOperations\Find;
     use ApiOperations\All;
+    public const OBJECT_NAME = 'user';
 
     public function listUrl(): string
     {
@@ -30,6 +29,7 @@ class User extends ApiResource
     public static function all($project_id, $options = [])
     {
         $instance = new static(['project_id' => $project_id]);
+
         return $instance->_all($options);
     }
 }

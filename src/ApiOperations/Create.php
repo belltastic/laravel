@@ -10,7 +10,7 @@ trait Create
     {
         $client = new ApiClient($options['apiKey'] ?? null, $options);
 
-        $response = $client->post((new static)->listUrl(), $attributes, $options['headers'] ?? []);
+        $response = $client->post((new static())->listUrl(), $attributes, $options['headers'] ?? []);
 
         return new static($response);
     }

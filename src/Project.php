@@ -4,12 +4,11 @@ namespace Belltastic;
 
 class Project extends ApiResource
 {
-    const OBJECT_NAME = 'project';
-
     use ApiOperations\All;
     use ApiOperations\Find;
     use ApiOperations\Create;
     use ApiOperations\Update;
+    public const OBJECT_NAME = 'project';
 
     protected $paginated = false;
 

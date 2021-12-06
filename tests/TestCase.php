@@ -47,12 +47,12 @@ class TestCase extends Orchestra
     public function mockApiClient(): void
     {
         if (is_null($this->clientMock)) {
-
             $this->clientMock = new MockHandler([]);
 
             $this->app->bind('belltastic-api-client', function () {
                 $handlerStack = HandlerStack::create($this->clientMock);
                 $handlerStack->push(Middleware::history($this->requestHistory));
+
                 return new Client(['handler' => $handlerStack]);
             });
         }

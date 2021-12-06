@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 trait All
 {
-    abstract function listUrl();
+    abstract public function listUrl();
 
     protected function _all($options = [])
     {
@@ -25,14 +25,15 @@ trait All
 
         return Collection::make($data)->map(function ($item) {
             /** @var ApiResource $instance */
-            $instance = new static;
+            $instance = new static();
             $instance->fill($item);
+
             return $instance;
         });
     }
 
     public static function all($options = [])
     {
-        return (new static)->_all($options);
+        return (new static())->_all($options);
     }
 }
