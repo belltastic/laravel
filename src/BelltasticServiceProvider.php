@@ -2,7 +2,7 @@
 
 namespace Belltastic;
 
-use Belltastic\Commands\BelltasticCommand;
+use GuzzleHttp\Client;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -16,10 +16,14 @@ class BelltasticServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravel')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel_table')
-            ->hasCommand(BelltasticCommand::class);
+            ->name('belltastic')
+            ->hasConfigFile();
+    }
+
+    public function packageRegistered()
+    {
+        $this->app->bind('belltastic-api-client', function () {
+            return new Client();
+        });
     }
 }

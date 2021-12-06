@@ -22,8 +22,10 @@
     ],
     "require": {
         "php": "^7.2|^8.0",
-        "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^8.73"
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/contracts": "^8.0",
+        "spatie/laravel-package-tools": "^1.9.2"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.10",
