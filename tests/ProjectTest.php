@@ -122,7 +122,7 @@ it('can soft delete a project', function () {
     $deletedAt = now()->micro(0);
     $this->queueMockResponse(200, [
         'message' => 'Project archived',
-        'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()])
+        'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     $project->delete();
@@ -137,7 +137,7 @@ it('can force delete a project', function () {
     $deletedAt = now()->micro(0);
     $this->queueMockResponse(200, [
         'message' => 'Project deleted',
-        'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()])
+        'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     $project->forceDelete();
