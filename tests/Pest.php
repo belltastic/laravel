@@ -14,15 +14,15 @@ function assertRequestIs(Request $request = null, string $method = null, string 
 {
     \PHPUnit\Framework\assertNotNull($request);
 
-    if (!is_null($method)) {
+    if (! is_null($method)) {
         expect($request->getMethod())->toBe(strtoupper($method));
     }
 
-    if (!is_null($path)) {
+    if (! is_null($path)) {
         expect($request->getUri()->getPath())->toBe($path);
     }
 
-    if (!is_null($data)) {
+    if (! is_null($data)) {
         expect((string) $request->getBody())->toBe(json_encode($data));
     }
 }
