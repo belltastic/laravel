@@ -98,4 +98,14 @@ class User extends ApiResource
     {
         return new NotificationsQuery($this->project_id, $this->id);
     }
+
+    public function hmac($secret = null): string
+    {
+        return base64_encode(hash_hmac(
+            'sha256',
+            $this->project_id . ':' . $this->id,
+            $secret ?? config('belltastic.projects.'.$this->project_id.'.secret'),
+            true
+        ));
+    }
 }
