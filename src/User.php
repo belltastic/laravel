@@ -4,6 +4,7 @@ namespace Belltastic;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\LazyCollection;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * @package Belltastic
@@ -31,12 +32,12 @@ class User extends ApiResource
     use ApiOperations\Update;
     use ApiOperations\Delete;
 
-    public function listUrl(): string
+    protected function listUrl(): string
     {
         return "v1/project/$this->project_id/users";
     }
 
-    public function instanceUrl(): string
+    protected function instanceUrl(): string
     {
         return "v1/project/$this->project_id/user/$this->id";
     }
@@ -46,6 +47,11 @@ class User extends ApiResource
      * @param string|int $id
      * @param array $options
      * @return User
+     * @throws Exceptions\ForbiddenException
+     * @throws Exceptions\NotFoundException
+     * @throws Exceptions\UnauthorizedException
+     * @throws Exceptions\ValidationException
+     * @throws GuzzleException
      */
     public static function find(int $project_id, $id, array $options = []): User
     {
@@ -59,6 +65,11 @@ class User extends ApiResource
      * @param int $project_id
      * @param array $options
      * @return LazyCollection
+     * @throws Exceptions\ForbiddenException
+     * @throws Exceptions\NotFoundException
+     * @throws Exceptions\UnauthorizedException
+     * @throws Exceptions\ValidationException
+     * @throws GuzzleException
      */
     public static function all($project_id, array $options = []): LazyCollection
     {
@@ -72,9 +83,19 @@ class User extends ApiResource
      * @param array $attributes
      * @param array $options
      * @return User
+     * @throws Exceptions\ForbiddenException
+     * @throws Exceptions\NotFoundException
+     * @throws Exceptions\UnauthorizedException
+     * @throws Exceptions\ValidationException
+     * @throws GuzzleException
      */
     public static function create($project_id, $attributes = [], array $options = []): User
     {
         return (new static(['project_id' => $project_id]))->_create($attributes, $options);
+    }
+
+    public function notifications(): NotificationsQuery
+    {
+        return new NotificationsQuery($this->project_id, $this->id);
     }
 }

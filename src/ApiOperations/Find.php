@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 trait Find
 {
-    abstract public function instanceUrl();
+    abstract public function instanceUrl(): string;
 
     /**
      * Re-fetch the model from the API

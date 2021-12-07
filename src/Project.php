@@ -43,4 +43,9 @@ class Project extends ApiResource
     {
         return "v1/project/$this->id";
     }
+
+    public function users(): UsersQuery
+    {
+        return new UsersQuery($this->id);
+    }
 }

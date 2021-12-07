@@ -11,6 +11,8 @@ use GuzzleHttp\Exception\GuzzleException;
 
 trait Delete
 {
+    abstract protected function instanceUrl(): string;
+
     /**
      * @param array $options
      * @return void

@@ -14,7 +14,7 @@ use Illuminate\Support\LazyCollection;
 
 trait All
 {
-    abstract public function listUrl();
+    abstract protected function listUrl(): string;
 
     /**
      * @param array $options

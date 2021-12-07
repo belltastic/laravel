@@ -11,6 +11,8 @@ use GuzzleHttp\Exception\GuzzleException;
 
 trait Update
 {
+    abstract protected function instanceUrl(): string;
+
     /**
      * Update the model with new values.
      * @param array $attributes

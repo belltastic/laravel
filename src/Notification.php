@@ -32,12 +32,12 @@ class Notification extends ApiResource
     use ApiOperations\Create;
     use ApiOperations\Delete;
 
-    public function listUrl(): string
+    protected function listUrl(): string
     {
         return "v1/project/$this->project_id/user/$this->user_id/notifications";
     }
 
-    public function instanceUrl(): string
+    protected function instanceUrl(): string
     {
         return "v1/project/$this->project_id/user/$this->user_id/notification/$this->id";
     }
@@ -48,6 +48,11 @@ class Notification extends ApiResource
      * @param string $id
      * @param array $options
      * @return Notification
+     * @throws Exceptions\ForbiddenException
+     * @throws Exceptions\NotFoundException
+     * @throws Exceptions\UnauthorizedException
+     * @throws Exceptions\ValidationException
+     * @throws GuzzleException
      */
     public static function find(int $project_id, $user_id, string $id, array $options = []): Notification
     {
@@ -66,6 +71,11 @@ class Notification extends ApiResource
      * @param string|int $user_id
      * @param array $options
      * @return LazyCollection
+     * @throws Exceptions\ForbiddenException
+     * @throws Exceptions\NotFoundException
+     * @throws Exceptions\UnauthorizedException
+     * @throws Exceptions\ValidationException
+     * @throws GuzzleException
      */
     public static function all(int $project_id, $user_id, array $options = []): LazyCollection
     {
@@ -78,6 +88,11 @@ class Notification extends ApiResource
      * @param array $attributes
      * @param array $options
      * @return Notification
+     * @throws Exceptions\ForbiddenException
+     * @throws Exceptions\NotFoundException
+     * @throws Exceptions\UnauthorizedException
+     * @throws Exceptions\ValidationException
+     * @throws GuzzleException
      */
     public static function create(int $project_id, $user_id, array $attributes = [], array $options = []): Notification
     {

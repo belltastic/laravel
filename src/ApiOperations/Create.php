@@ -11,6 +11,8 @@ use GuzzleHttp\Exception\GuzzleException;
 
 trait Create
 {
+    abstract protected function listUrl(): string;
+
     /**
      * @throws NotFoundException
      * @throws ForbiddenException
