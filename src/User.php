@@ -2,6 +2,7 @@
 
 namespace Belltastic;
 
+use Belltastic\Util\Util;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\LazyCollection;
@@ -23,6 +24,7 @@ use Illuminate\Support\LazyCollection;
  * @method void save(array $options = []) Save the user's changes.
  * @method void delete(array $options = []) Archive (soft-delete) the user.
  * @method void forceDelete(array $options = []) Delete the user completely. This will also remove its related notifications. There is no way to restore this data.
+ * @method string hmac(string $secret = null) Get the HMAC authorization string for this user.
  */
 class User extends ApiResource
 {
@@ -99,13 +101,21 @@ class User extends ApiResource
         return new NotificationsQuery($this->project_id, $this->id);
     }
 
-    public function hmac($secret = null): string
+    public function __call($name, $arguments)
     {
-        return base64_encode(hash_hmac(
-            'sha256',
-            $this->project_id . ':' . $this->id,
-            $secret ?? config('belltastic.projects.'.$this->project_id.'.secret'),
-            true
-        ));
+        if ($name === 'hmac') {
+            return Util::hmac($this->project_id, $this->id, ...$arguments);
+        }
+
+        throw new \BadMethodCallException('Unknown instance method call '.get_called_class().'::'.$name);
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        if ($name === 'hmac') {
+            return Util::hmac(...$arguments);
+        }
+
+        throw new \BadMethodCallException('Unknown static method call '.get_called_class().'::'.$name);
     }
 }

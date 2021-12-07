@@ -44,3 +44,17 @@ it('can provide a custom secret value if needed', function () {
         "The returned '$correctHmac' HMAC value does not match the expected '$expectedHmac' value."
     );
 });
+
+it('can return HMAC from a static method without needing a user instance', function () {
+    $secret = 'valid-secret';
+    config(['belltastic.projects.'.$this->user->project_id.'.secret' => $secret]);
+    $expectedHmac = base64_encode(hash_hmac('sha256', 4321 . ':' . 1234, $secret, true));
+
+    /** @noinspection */
+    $actualHmac = User::hmac($this->user->project_id, $this->user->id);
+
+    assertTrue(
+        hash_equals($expectedHmac, $actualHmac),
+        "The returned '$actualHmac' HMAC value does not match the expected '$expectedHmac' value."
+    );
+});

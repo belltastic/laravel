@@ -31,4 +31,14 @@ abstract class Util
 
         return $value;
     }
+
+    public static function hmac($project_id, $user_id, $secret = null): string
+    {
+        return \base64_encode(\hash_hmac(
+            'sha256',
+            $project_id . ':' . $user_id,
+            $secret ?? config('belltastic.projects.'.$project_id.'.secret'),
+            true
+        ));
+    }
 }

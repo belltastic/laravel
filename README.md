@@ -92,6 +92,8 @@ $user->forceDelete();   // permanently delete. No way to restore it.
 // Return the HMAC authorization string for this user.
 // Read more about HMAC here: https://belltastic.com/docs/component/hmac.html
 $hmac_value = $user->hmac();
+// Or, preferrably without loading a user instance:
+$hmac_value = \Belltastic\User::hmac($project_id, $user_id);
 
 // User has many notifications relation:
 $user->notifications()->all();
