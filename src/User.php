@@ -2,9 +2,9 @@
 
 namespace Belltastic;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\LazyCollection;
-use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * @package Belltastic

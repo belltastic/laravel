@@ -1,7 +1,7 @@
 <?php
 
-use Belltastic\User;
 use Belltastic\Notification;
+use Belltastic\User;
 use Illuminate\Support\LazyCollection;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
