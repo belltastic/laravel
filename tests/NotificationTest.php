@@ -8,6 +8,7 @@ use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertStringContainsString;
 
 beforeEach(function () {
+    $createdAt = now()->subHour()->micro(0);
     $this->project_id = 1;
     $this->user_id = 123;
     $this->routeBase = '/api/v1/project/' . $this->project_id . '/user/' . $this->user_id;
@@ -15,14 +16,14 @@ beforeEach(function () {
         'id' => '9505f16b-3ac2-48ed-86d8-395544ddc735',
         'project_id' => $this->project_id,
         'user_id' => $this->user_id,
-        'icon' => 'https:\/\/via.placeholder.com\/80x80.png\/0033ff?text=sapiente',
+        'icon' => 'https:\/\/via.placeholder.com\/80x80.png\/0033ff?text=sapient',
         'title' => 'First notification title',
         'body' => 'First notification body. With a lot of text.',
         'category' => 'system',
         'action_url' => null,
         'seen_at' => null,
         'read_at' => null,
-        'created_at' => '2021-11-19T06:11:45+00:00',
+        'created_at' => $createdAt,
     ];
     $this->multipleNotificationsData = [
         'data' => [
@@ -37,7 +38,7 @@ beforeEach(function () {
                 'action_url' => null,
                 'seen_at' => null,
                 'read_at' => null,
-                'created_at' => '2021-11-24T01:55:36+00:00',
+                'created_at' => $createdAt,
             ],
             [
                 'id' => '9505f16b-39ff-42a0-bd4c-5b9b784f2a63',
@@ -50,7 +51,7 @@ beforeEach(function () {
                 'action_url' => 'http:\/\/west.com\/vitae-sed-nostrum-sint',
                 'seen_at' => null,
                 'read_at' => null,
-                'created_at' => '2021-11-18T01:31:12+00:00',
+                'created_at' => $createdAt,
             ],
         ],
         'links' => [
@@ -99,7 +100,7 @@ it('can list all notifications', function () {
     assertRequestCount(0);
     assertInstanceOf(LazyCollection::class, $notifications);
 
-    $firstNotification = $notifications->first();
+    $notifications->first();
     assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'get', $this->routeBase . '/notifications');
 
@@ -110,7 +111,7 @@ it('can list all notifications', function () {
     assertCount(3, $notificationModels);
 
     clearRequests();
-    $count = $notifications->count();
+    $notifications->count();
     // since we retrieved the full collection already with the ->all() method previously,
     // calling ->count() should make no additional requests.
     assertRequestCount(0);
@@ -140,18 +141,20 @@ it('cannot update or save notifications like other objects', function () {
     queueMockResponse(200, $this->singleNotificationData);
 
     try {
+        /** @noinspection PhpUndefinedMethodInspection */
         $notification->update(['title' => 'New title']);
         $this->fail('Method not found exception was not thrown. It should not be possible to update the notification like other objects.');
-    } catch (\Error $error) {
+    } catch (Error $error) {
         assertStringContainsString('Call to undefined method', $error->getMessage());
         assertRequestCount(0);
     }
 
     try {
-        $notification->title = 'new title';
+        $notification->setAttribute('title', 'new title');
+        /** @noinspection PhpUndefinedMethodInspection */
         $notification->save();
         $this->fail('Method not found exception was not thrown. It should not be possible to save the notification manually like other objects.');
-    } catch (\Error $error) {
+    } catch (Error $error) {
         assertStringContainsString('Call to undefined method', $error->getMessage());
         assertRequestCount(0);
     }
@@ -165,6 +168,7 @@ it('can soft delete a notification', function () {
         'data' => array_merge($this->singleNotificationData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user->delete();
 
     assertRequestCount(1);
@@ -185,6 +189,7 @@ it('can force delete a notification', function () {
         'data' => array_merge($this->singleNotificationData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user->forceDelete();
 
     assertRequestCount(1);
@@ -202,6 +207,7 @@ it('can mark notification as read', function () {
     $readAt = now()->micro(0);
     queueMockResponse(200, array_merge($this->singleNotificationData, ['read_at' => $readAt->toIso8601String()]));
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $notification->markAsRead();
 
     assertRequestCount(1);
@@ -218,6 +224,7 @@ it('can mark notification as unread', function () {
     $notification = new Notification(array_merge($this->singleNotificationData, ['read_at' => now()->subHour()]));
     queueMockResponse(200, array_merge($this->singleNotificationData, ['read_at' => null]));
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $notification->markAsUnread();
 
     assertRequestCount(1);
@@ -235,6 +242,7 @@ it('can mark notification as seen', function () {
     $seenAt = now()->micro(0);
     queueMockResponse(200, array_merge($this->singleNotificationData, ['seen_at' => $seenAt->toIso8601String()]));
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $notification->markAsSeen();
 
     assertRequestCount(1);

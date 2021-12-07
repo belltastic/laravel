@@ -2,9 +2,19 @@
 
 namespace Belltastic;
 
+use Illuminate\Support\Facades\Date;
+
 abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
 {
     public $attributes = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'read_at',
+        'seen_at',
+    ];
 
     public function offsetExists($offset): bool
     {
@@ -45,7 +55,11 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
 
     public function setAttribute($key, $value)
     {
-        $this->attributes[$key] = $value;
+        if (in_array($key, $this->dates)) {
+            $this->attributes[$key] = $value ? Date::parse($value) : null;
+        } else {
+            $this->attributes[$key] = $value;
+        }
     }
 
     public function getAttributes()

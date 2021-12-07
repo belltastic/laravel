@@ -3,25 +3,43 @@
 namespace Belltastic\ApiOperations;
 
 use Belltastic\ApiClient;
-use Illuminate\Support\Facades\Date;
+use Belltastic\Exceptions\ForbiddenException;
+use Belltastic\Exceptions\NotFoundException;
+use Belltastic\Exceptions\UnauthorizedException;
+use Belltastic\Exceptions\ValidationException;
+use GuzzleHttp\Exception\GuzzleException;
 
 trait Delete
 {
-    public function delete($options = [])
+    /**
+     * @param array $options
+     * @return void
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws ValidationException
+     * @throws GuzzleException
+     */
+    public function delete(array $options = [])
     {
-        $client = new ApiClient($options['api_key'] ?? null, $options ?? []);
+        $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options ?? []);
         $response = $client->delete($this->instanceUrl(), $options['headers'] ?? []);
-        $this->fill(['deleted_at' => Date::parse($response['data']['deleted_at'])]);
-
-        return true;
+        $this->fill(['deleted_at' => $response['data']['deleted_at']]);
     }
 
-    public function forceDelete($options = [])
+    /**
+     * @param array $options
+     * @return void
+     * @throws ForbiddenException
+     * @throws GuzzleException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws ValidationException
+     */
+    public function forceDelete(array $options = [])
     {
-        $client = new ApiClient($options['api_key'] ?? null, $options ?? []);
+        $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options ?? []);
         $response = $client->delete($this->instanceUrl(), ['force' => true], $options['headers'] ?? []);
-        $this->fill(['deleted_at' => Date::parse($response['data']['deleted_at'])]);
-
-        return null;
+        $this->fill(['deleted_at' => $response['data']['deleted_at']]);
     }
 }

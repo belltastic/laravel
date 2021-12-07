@@ -104,21 +104,49 @@ class ApiClient
         return json_decode((string) $response->getBody(), true);
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws ForbiddenException
+     * @throws GuzzleException
+     * @throws UnauthorizedException
+     * @throws ValidationException
+     */
     public function get($path, $headers = [])
     {
         return $this->request('GET', $path, [], $headers);
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws ForbiddenException
+     * @throws GuzzleException
+     * @throws UnauthorizedException
+     * @throws ValidationException
+     */
     public function post($path, $data = [], $headers = [])
     {
         return $this->request('POST', $path, $data, $headers);
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws ForbiddenException
+     * @throws GuzzleException
+     * @throws UnauthorizedException
+     * @throws ValidationException
+     */
     public function put($path, $data = [], $headers = [])
     {
         return $this->request('PUT', $path, $data, $headers);
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws ForbiddenException
+     * @throws UnauthorizedException
+     * @throws GuzzleException
+     * @throws ValidationException
+     */
     public function delete($path, $data = [], $headers = [])
     {
         return $this->request('DELETE', $path, $data, $headers);

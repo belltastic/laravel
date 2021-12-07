@@ -2,6 +2,27 @@
 
 namespace Belltastic;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Support\LazyCollection;
+
+/**
+ * @package Belltastic
+ *
+ * @property-read string $id
+ * @property-read int $belltastic_id
+ * @property-read int $project_id
+ * @property string|null $email
+ * @property string|null $name
+ * @property string|null $avatar_url
+ * @property-read int $unread_notifications_count
+ * @property-read Carbon|null $created_at
+ * @property-read Carbon|null $deleted_at
+ *
+ * @method $this update(array $attributes = [], array $options = []) Update the user with new values.
+ * @method void save(array $options = []) Save the user's changes.
+ * @method void delete(array $options = []) Archive (soft-delete) the user.
+ * @method void forceDelete(array $options = []) Delete the user completely. This will also remove its related notifications. There is no way to restore this data.
+ */
 class User extends ApiResource
 {
     use ApiOperations\Find;
@@ -12,30 +33,47 @@ class User extends ApiResource
 
     public function listUrl(): string
     {
-        return "v1/project/{$this->project_id}/users";
+        return "v1/project/$this->project_id/users";
     }
 
     public function instanceUrl(): string
     {
-        return "v1/project/{$this->project_id}/user/{$this->id}";
+        return "v1/project/$this->project_id/user/$this->id";
     }
 
-    public static function find($project_id, $id, $options = [])
+    /**
+     * @param int $project_id
+     * @param string|int $id
+     * @param array $options
+     * @return User
+     */
+    public static function find(int $project_id, $id, array $options = []): User
     {
-        $instance = new self(['project_id' => $project_id, 'id' => $id], $options);
+        $instance = new self(['project_id' => $project_id, 'id' => strval($id)], $options);
         $instance->refresh();
 
         return $instance;
     }
 
-    public static function all($project_id, $options = [])
+    /**
+     * @param int $project_id
+     * @param array $options
+     * @return LazyCollection
+     */
+    public static function all($project_id, array $options = []): LazyCollection
     {
         $instance = new static(['project_id' => $project_id]);
 
         return $instance->_all($options);
     }
 
-    public static function create($project_id, $attributes = [], $options = [])
+    /**
+     * @param int $project_id
+     * @param array $attributes
+     * @param array $options
+     * @return User
+     */
+    public static function create($project_id, $attributes = [], array $options = []): User
     {
         return (new static(['project_id' => $project_id]))->_create($attributes, $options);
     }

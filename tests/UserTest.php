@@ -7,6 +7,7 @@ use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 
 beforeEach(function () {
+    $createdAt = now()->subHour()->micro(0);
     $this->project_id = 1;
     $this->routeBase = '/api/v1/project/' . $this->project_id;
     $this->singleUserData = [
@@ -17,6 +18,8 @@ beforeEach(function () {
         'avatar_url' => 'https:\/\/via.placeholder.com\/80x80.png\/007744?text=test+user',
         'project_id' => $this->project_id,
         'unread_notifications_count' => 20,
+        'created_at' => $createdAt,
+        'deleted_at' => null,
     ];
     $this->multipleUsersData = [
         'data' => [
@@ -28,6 +31,8 @@ beforeEach(function () {
                 'avatar_url' => 'https:\/\/via.placeholder.com\/80x80.png\/0033aa?text=john+doe',
                 'project_id' => $this->project_id,
                 'unread_notifications_count' => 40,
+                'created_at' => $createdAt,
+                'deleted_at' => null,
             ],
             [
                 'id' => '19a1ef31-5119-3fdc-b98f-9872357e2801',
@@ -37,13 +42,15 @@ beforeEach(function () {
                 'avatar_url' => 'https:\/\/via.placeholder.com\/80x80.png\/007744?text=jane+doe',
                 'project_id' => $this->project_id,
                 'unread_notifications_count' => 40,
+                'created_at' => $createdAt,
+                'deleted_at' => null,
             ],
         ],
         'links' => [
             'first' => null,
             'last' => null,
             'prev' => null,
-            'next' => 'https:\/\/belltastic.com\/api\/v1\/project\/1\/users?cursor=eyJleHRlcm5hbF9pZCI6IjUzNmU1OWVjLTkyYzItMzU0Ni1iZDA3LWU3NzUzNmZhZjYzYSIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0',
+            'next' => 'https:\/\/belltastic.com\/api\/v1\/project\/1\/users?cursor=eyJleHRlc5hbF9pZCI6IjUzNmU1OWVjLTkyYzItMzU0Ni1iZDA3LWU3NzUzNmZhZjYzYSIsIl9wb2ludHNUb05leHRJdManyI6dHJ1ZX0',
         ],
         'meta' => [
             'path' => 'https:\/\/belltastic.com\/api\/v1\/project\/1\/users',
@@ -82,7 +89,7 @@ it('can retrieve multiple users', function () {
     assertRequestCount(0);
     assertInstanceOf(LazyCollection::class, $users);
 
-    $firstUser = $users->first();
+    $users->first();
     assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'get', $this->routeBase . '/users');
 
@@ -95,7 +102,7 @@ it('can retrieve multiple users', function () {
     // since we retrieved the full collection already with the ->all() method,
     // calling ->count() should make no additional requests.
     clearRequests();
-    $count = $users->count();
+    $users->count();
 
     assertRequestCount(0);
 });
@@ -121,6 +128,7 @@ it('can update user with the update() method', function () {
     queueMockResponse(200, array_merge($this->singleUserData, $newData));
     $user = new User($this->singleUserData);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user->update($newData);
 
     assertRequestCount(1);
@@ -142,6 +150,7 @@ it('can update user with the save() method', function () {
 
     $user->name = $newData['name'];
     $user->email = $newData['email'];
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user->save();
 
     assertRequestCount(1);
@@ -161,6 +170,7 @@ it('can soft delete a user', function () {
         'data' => array_merge($this->singleUserData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user->delete();
 
     assertRequestCount(1);
@@ -181,6 +191,7 @@ it('can force delete a user', function () {
         'data' => array_merge($this->singleUserData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user->forceDelete();
 
     assertRequestCount(1);

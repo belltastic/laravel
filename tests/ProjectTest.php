@@ -29,7 +29,7 @@ const MULTIPLE_PROJECTS_DATA = [
     ],
 ];
 
-it('can return a single package', function () {
+it('can return a single project', function () {
     queueMockResponse(200, SINGLE_PROJECT_DATA);
 
     $project = Project::find(SINGLE_PROJECT_DATA['id']);
@@ -42,7 +42,7 @@ it('can return a single package', function () {
     }
 });
 
-it('can return multiple packages', function () {
+it('can return multiple projects', function () {
     queueMockResponse(200, MULTIPLE_PROJECTS_DATA);
 
     $projects = Project::all();
@@ -85,6 +85,7 @@ it('can update a project with the update() method', function () {
     $project = new Project(SINGLE_PROJECT_DATA);
     queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $project->update($newData);
 
     assertRequestCount(1);
@@ -106,6 +107,7 @@ it('can update a project by calling save() method', function () {
 
     $project->name = $newData['name'];
     $project->default = $newData['default'];
+    /** @noinspection PhpUnhandledExceptionInspection */
     $project->save();
 
     assertRequestCount(1);
@@ -125,6 +127,7 @@ it('can soft delete a project', function () {
         'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $project->delete();
 
     assertRequestCount(1);
@@ -140,6 +143,7 @@ it('can force delete a project', function () {
         'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $project->forceDelete();
 
     assertRequestCount(1);

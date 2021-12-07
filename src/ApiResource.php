@@ -4,8 +4,8 @@ namespace Belltastic;
 
 abstract class ApiResource extends BelltasticObject
 {
-    private $_apiKey;
-    private $_options;
+    protected $_apiKey;
+    protected $_options;
 
     protected $paginated = true;
 
@@ -19,7 +19,7 @@ abstract class ApiResource extends BelltasticObject
         }
     }
 
-    abstract public function listUrl(): string;
+    abstract protected function listUrl(): string;
 
-    abstract public function instanceUrl(): string;
+    abstract protected function instanceUrl(): string;
 }
