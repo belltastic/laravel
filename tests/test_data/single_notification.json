@@ -1,0 +1,13 @@
+{
+    "id": "9505f16b-3ac2-48ed-86d8-395544ddc735",
+    "project_id": 1,
+    "user_id": 1,
+    "icon": "https:\/\/via.placeholder.com\/80x80.png\/0033ff?text=sapient",
+    "title": "First notification title",
+    "body": "First notification body. With a lot of text.",
+    "category": "system",
+    "action_url": null,
+    "seen_at": null,
+    "read_at": null,
+    "created_at": null
+}

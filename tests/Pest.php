@@ -2,6 +2,7 @@
 
 use Belltastic\Tests\TestCase;
 use GuzzleHttp\Psr7\Request;
+use function PHPUnit\Framework\assertNotNull;
 
 uses(TestCase::class)->in(__DIR__);
 
@@ -40,6 +41,17 @@ function getRequests(): array
     return test()->getRequests();
 }
 
+function loadTestFile(string $path, $replacements = [])
+{
+    $contents = json_decode(file_get_contents(__DIR__.'/'.$path), true);
+
+    foreach ($replacements as $key => $value) {
+        \Illuminate\Support\Arr::set($contents, $key, $value);
+    }
+
+    return $contents;
+}
+
 function assertRequestCount(int $expectedCount)
 {
     test()->assertRequestCount($expectedCount);
@@ -47,7 +59,7 @@ function assertRequestCount(int $expectedCount)
 
 function assertRequestIs(Request $request = null, string $method = null, string $path = null, array $data = null)
 {
-    \PHPUnit\Framework\assertNotNull($request);
+    assertNotNull($request);
 
     if (! is_null($method)) {
         expect($request->getMethod())->toBe(strtoupper($method));

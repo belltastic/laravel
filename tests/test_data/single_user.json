@@ -1,0 +1,11 @@
+{
+    "id": "54a1ef31-5119-3fdc-b98f-9872357e2801",
+    "belltastic_id": 23,
+    "email": "test@example.com",
+    "name": "Test User",
+    "avatar_url": "https:\/\/via.placeholder.com\/80x80.png\/007744?text=test+user",
+    "project_id": 1,
+    "unread_notifications_count": 20,
+    "created_at": null,
+    "deleted_at": null
+}

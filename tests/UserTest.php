@@ -10,53 +10,9 @@ beforeEach(function () {
     $createdAt = now()->subHour()->micro(0);
     $this->project_id = 1;
     $this->routeBase = '/api/v1/project/' . $this->project_id;
-    $this->singleUserData = [
-        'id' => '54a1ef31-5119-3fdc-b98f-9872357e2801',
-        'belltastic_id' => 23,
-        'email' => 'test@example.com',
-        'name' => 'Test User',
-        'avatar_url' => 'https:\/\/via.placeholder.com\/80x80.png\/007744?text=test+user',
-        'project_id' => $this->project_id,
-        'unread_notifications_count' => 20,
-        'created_at' => $createdAt,
-        'deleted_at' => null,
-    ];
-    $this->multipleUsersData = [
-        'data' => [
-            [
-                'id' => '05e9d499-4dd6-3ef7-83b5-a1328bb1cff1',
-                'belltastic_id' => 15,
-                'email' => 'john@example.com',
-                'name' => 'John Doe',
-                'avatar_url' => 'https:\/\/via.placeholder.com\/80x80.png\/0033aa?text=john+doe',
-                'project_id' => $this->project_id,
-                'unread_notifications_count' => 40,
-                'created_at' => $createdAt,
-                'deleted_at' => null,
-            ],
-            [
-                'id' => '19a1ef31-5119-3fdc-b98f-9872357e2801',
-                'belltastic_id' => 29,
-                'email' => 'jane@example.com',
-                'name' => 'Jane Doe',
-                'avatar_url' => 'https:\/\/via.placeholder.com\/80x80.png\/007744?text=jane+doe',
-                'project_id' => $this->project_id,
-                'unread_notifications_count' => 40,
-                'created_at' => $createdAt,
-                'deleted_at' => null,
-            ],
-        ],
-        'links' => [
-            'first' => null,
-            'last' => null,
-            'prev' => null,
-            'next' => 'https:\/\/belltastic.com\/api\/v1\/project\/1\/users?cursor=eyJleHRlc5hbF9pZCI6IjUzNmU1OWVjLTkyYzItMzU0Ni1iZDA3LWU3NzUzNmZhZjYzYSIsIl9wb2ludHNUb05leHRJdManyI6dHJ1ZX0',
-        ],
-        'meta' => [
-            'path' => 'https:\/\/belltastic.com\/api\/v1\/project\/1\/users',
-            'per_page' => 10,
-        ],
-    ];
+    $this->singleUserData = loadTestFile('test_data/single_user.json');
+    $this->singleUserData['project_id'] = $this->project_id;
+    $this->singleUserData['created_at'] = $createdAt;
 });
 
 it('can retrieve a single user', function () {
@@ -74,7 +30,8 @@ it('can retrieve a single user', function () {
 });
 
 it('can retrieve multiple users', function () {
-    queueMockResponse(200, $this->multipleUsersData);
+    $multipleUsersData = loadTestFile('test_data/multiple_users.json');
+    queueMockResponse(200, $multipleUsersData);
     // second page
     queueMockResponse(200, [
         'data' => [$this->singleUserData],

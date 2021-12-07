@@ -5,46 +5,29 @@ use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 
-const SINGLE_PROJECT_DATA = [
-    "id" => 1,
-    "name" => "Default",
-    "default" => false,
-    "hmac_required" => false,
-    "team_id" => 1,
-];
-const MULTIPLE_PROJECTS_DATA = [
-    [
-        "id" => 1,
-        "name" => "Default",
-        "default" => false,
-        "hmac_required" => false,
-        "team_id" => 1,
-    ],
-    [
-        "id" => 2,
-        "name" => "Second project",
-        "default" => true,
-        "hmac_required" => false,
-        "team_id" => 1,
-    ],
-];
+beforeEach(function () {
+    $this->singleProjectData = loadTestFile('test_data/single_project.json');
+});
 
 it('can return a single project', function () {
-    queueMockResponse(200, SINGLE_PROJECT_DATA);
+    queueMockResponse(200, $this->singleProjectData);
 
-    $project = Project::find(SINGLE_PROJECT_DATA['id']);
+    /** @noinspection PhpUnhandledExceptionInspection */
+    $project = Project::find($this->singleProjectData['id']);
 
     assertRequestCount(1);
-    assertRequestIs(getFirstRequest(), 'get', '/api/v1/project/'.SINGLE_PROJECT_DATA['id']);
+    assertRequestIs(getFirstRequest(), 'get', '/api/v1/project/'.$this->singleProjectData['id']);
     expect($project)->toBeInstanceOf(Project::class);
-    foreach (SINGLE_PROJECT_DATA as $key => $value) {
+    foreach ($this->singleProjectData as $key => $value) {
         expect($project[$key])->toBe($value);
     }
 });
 
 it('can return multiple projects', function () {
-    queueMockResponse(200, MULTIPLE_PROJECTS_DATA);
+    $multipleProjectData = loadTestFile('test_data/multiple_projects.json');
+    queueMockResponse(200, $multipleProjectData);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $projects = Project::all();
 
     assertRequestCount(1);
@@ -53,10 +36,10 @@ it('can return multiple projects', function () {
     assertCount(2, $projects);
     assertInstanceOf(Project::class, $projects[0]);
     assertInstanceOf(Project::class, $projects[1]);
-    foreach (MULTIPLE_PROJECTS_DATA[0] as $key => $value) {
+    foreach ($multipleProjectData[0] as $key => $value) {
         assertEquals($value, $projects[0][$key]);
     }
-    foreach (MULTIPLE_PROJECTS_DATA[1] as $key => $value) {
+    foreach ($multipleProjectData[1] as $key => $value) {
         assertEquals($value, $projects[1][$key]);
     }
 });
@@ -66,8 +49,9 @@ it('can create a new project', function () {
         'name' => 'New Project',
         'default' => true,
     ];
-    queueMockResponse(201, array_merge(SINGLE_PROJECT_DATA, $requestData));
+    queueMockResponse(201, array_merge($this->singleProjectData, $requestData));
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $project = Project::create($requestData);
 
     assertRequestCount(1);
@@ -82,8 +66,8 @@ it('can update a project with the update() method', function () {
         'name' => 'Updated name',
         'default' => true,
     ];
-    $project = new Project(SINGLE_PROJECT_DATA);
-    queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
+    $project = new Project($this->singleProjectData);
+    queueMockResponse(200, array_merge($this->singleProjectData, $newData));
 
     /** @noinspection PhpUnhandledExceptionInspection */
     $project->update($newData);
@@ -92,8 +76,8 @@ it('can update a project with the update() method', function () {
     assertRequestIs(
         getFirstRequest(),
         'put',
-        '/api/v1/project/'.SINGLE_PROJECT_DATA['id'],
-        array_merge(SINGLE_PROJECT_DATA, $newData)
+        '/api/v1/project/'.$this->singleProjectData['id'],
+        array_merge($this->singleProjectData, $newData)
     );
 });
 
@@ -102,8 +86,8 @@ it('can update a project by calling save() method', function () {
         'name' => 'Updated name',
         'default' => true,
     ];
-    $project = new Project(SINGLE_PROJECT_DATA);
-    queueMockResponse(200, array_merge(SINGLE_PROJECT_DATA, $newData));
+    $project = new Project($this->singleProjectData);
+    queueMockResponse(200, array_merge($this->singleProjectData, $newData));
 
     $project->name = $newData['name'];
     $project->default = $newData['default'];
@@ -114,33 +98,33 @@ it('can update a project by calling save() method', function () {
     assertRequestIs(
         getFirstRequest(),
         'put',
-        '/api/v1/project/'.SINGLE_PROJECT_DATA['id'],
-        array_merge(SINGLE_PROJECT_DATA, $newData)
+        '/api/v1/project/'.$this->singleProjectData['id'],
+        array_merge($this->singleProjectData, $newData)
     );
 });
 
 it('can soft delete a project', function () {
-    $project = new Project(SINGLE_PROJECT_DATA);
+    $project = new Project($this->singleProjectData);
     $deletedAt = now()->micro(0);
     queueMockResponse(200, [
         'message' => 'Project archived',
-        'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
+        'data' => array_merge($this->singleProjectData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
     $project->delete();
 
     assertRequestCount(1);
-    assertRequestIs(getFirstRequest(), 'delete', '/api/v1/project/'.SINGLE_PROJECT_DATA['id'], []);
+    assertRequestIs(getFirstRequest(), 'delete', '/api/v1/project/'.$this->singleProjectData['id'], []);
     assertEquals($deletedAt, $project->deleted_at);
 });
 
 it('can force delete a project', function () {
-    $project = new Project(SINGLE_PROJECT_DATA);
+    $project = new Project($this->singleProjectData);
     $deletedAt = now()->micro(0);
     queueMockResponse(200, [
         'message' => 'Project deleted',
-        'data' => array_merge(SINGLE_PROJECT_DATA, ['deleted_at' => $deletedAt->toIso8601String()]),
+        'data' => array_merge($this->singleProjectData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
@@ -150,7 +134,7 @@ it('can force delete a project', function () {
     assertRequestIs(
         getFirstRequest(),
         'delete',
-        '/api/v1/project/'.SINGLE_PROJECT_DATA['id'],
+        '/api/v1/project/'.$this->singleProjectData['id'],
         ['force' => true]
     );
     assertEquals($deletedAt, $project->deleted_at);

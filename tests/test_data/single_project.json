@@ -1,0 +1,7 @@
+{
+    "id": 1,
+    "name": "Default",
+    "default": false,
+    "hmac_required": false,
+    "team_id": 1
+}

@@ -12,59 +12,11 @@ beforeEach(function () {
     $this->project_id = 1;
     $this->user_id = 123;
     $this->routeBase = '/api/v1/project/' . $this->project_id . '/user/' . $this->user_id;
-    $this->singleNotificationData = [
-        'id' => '9505f16b-3ac2-48ed-86d8-395544ddc735',
-        'project_id' => $this->project_id,
+    $this->singleNotificationData = loadTestFile('test_data/single_notification.json', [
         'user_id' => $this->user_id,
-        'icon' => 'https:\/\/via.placeholder.com\/80x80.png\/0033ff?text=sapient',
-        'title' => 'First notification title',
-        'body' => 'First notification body. With a lot of text.',
-        'category' => 'system',
-        'action_url' => null,
-        'seen_at' => null,
-        'read_at' => null,
+        'project_id' => $this->project_id,
         'created_at' => $createdAt,
-    ];
-    $this->multipleNotificationsData = [
-        'data' => [
-            [
-                'id' => '9505f16b-3a3e-461c-b851-b7547b097ab2',
-                'project_id' => $this->project_id,
-                'user_id' => $this->user_id,
-                'icon' => 'https:\/\/via.placeholder.com\/80x80.png\/002244?text=minima',
-                'title' => 'ratione esse et omnis',
-                'body' => 'Dolores corporis ut saepe et quibusdam at. Voluptas itaque ea molestiae mollitia suscipit fugit ratione similique. Quidem et ut modi sint quia quia.',
-                'category' => 'system',
-                'action_url' => null,
-                'seen_at' => null,
-                'read_at' => null,
-                'created_at' => $createdAt,
-            ],
-            [
-                'id' => '9505f16b-39ff-42a0-bd4c-5b9b784f2a63',
-                'project_id' => $this->project_id,
-                'user_id' => $this->user_id,
-                'icon' => 'https:\/\/via.placeholder.com\/80x80.png\/001133?text=et',
-                'title' => 'numquam inventore commodi repudiandae',
-                'body' => 'Commodi et architecto labore voluptas velit ipsa. Incidunt laudantium deserunt esse. Rerum deserunt ipsum ut harum quo qui mollitia.',
-                'category' => 'system',
-                'action_url' => 'http:\/\/west.com\/vitae-sed-nostrum-sint',
-                'seen_at' => null,
-                'read_at' => null,
-                'created_at' => $createdAt,
-            ],
-        ],
-        'links' => [
-            'first' => null,
-            'last' => null,
-            'prev' => null,
-            'next' => 'http:\/\/belltastic.test\/api\/v1\/project\/1\/user\/123\/notifications?per_page=10&order=desc&cursor=eyJpZCI6Ijk1MDVmMTZiLTM4NmQtNGVjNi05NzY5LWZkYTY2NTliZDIyMyIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0',
-        ],
-        'meta' => [
-            'path' => 'http:\/\/belltastic.test\/api\/v1\/project\/1\/user\/123\/notifications',
-            'per_page' => 10,
-        ],
-    ];
+    ]);
 });
 
 it('can get individual notification', function () {
@@ -85,7 +37,8 @@ it('can get individual notification', function () {
 });
 
 it('can list all notifications', function () {
-    queueMockResponse(200, $this->multipleNotificationsData);
+    $multipleNotificationsData = loadTestFile('test_data/multiple_notifications.json');
+    queueMockResponse(200, $multipleNotificationsData);
     // second page
     queueMockResponse(200, [
         'data' => [$this->singleNotificationData],
