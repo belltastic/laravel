@@ -3,7 +3,6 @@
 namespace Belltastic\ApiOperations;
 
 use Belltastic\ApiClient;
-use Belltastic\ApiResource;
 use Belltastic\Exceptions\ForbiddenException;
 use Belltastic\Exceptions\NotFoundException;
 use Belltastic\Exceptions\UnauthorizedException;

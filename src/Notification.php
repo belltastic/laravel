@@ -92,7 +92,7 @@ class Notification extends ApiResource
     {
         return (new static([
             'project_id' => $project_id,
-            'user_id' => strval($user_id)
+            'user_id' => strval($user_id),
         ]))->_all($options);
     }
 
@@ -112,7 +112,7 @@ class Notification extends ApiResource
     {
         return (new static([
             'project_id' => $project_id,
-            'user_id' => strval($user_id)
+            'user_id' => strval($user_id),
         ]))->_create($attributes, $options);
     }
 
