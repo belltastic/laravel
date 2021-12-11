@@ -22,15 +22,26 @@ use Illuminate\Support\LazyCollection;
  * @property-read Carbon|null $read_at
  * @property-read Carbon|null $deleted_at
  *
- * @method void delete(array $options = []) Archive (soft-delete) the notification.
- * @method void forceDelete(array $options = []) Delete the notification completely. There is no way to restore this.
+ * @method void archive(array $options = []) Archive (soft-delete) the notification.
+ * @method void destroy(array $options = []) Delete the notification completely. There is no way to restore this.
  */
 class Notification extends ApiResource
 {
     use ApiOperations\Find;
     use ApiOperations\All;
     use ApiOperations\Create;
-    use ApiOperations\Delete;
+    use ApiOperations\Archive;
+    use ApiOperations\Destroy;
+
+    protected $fillable = [
+        'project_id',
+        'user_id',
+        'title',
+        'body',
+        'icon',
+        'category',
+        'action_url',
+    ];
 
     protected function listUrl(): string
     {
@@ -79,7 +90,10 @@ class Notification extends ApiResource
      */
     public static function all(int $project_id, $user_id, array $options = []): LazyCollection
     {
-        return (new static(['project_id' => $project_id, 'user_id' => strval($user_id)]))->_all($options);
+        return (new static([
+            'project_id' => $project_id,
+            'user_id' => strval($user_id)
+        ]))->_all($options);
     }
 
     /**
@@ -96,7 +110,10 @@ class Notification extends ApiResource
      */
     public static function create(int $project_id, $user_id, array $attributes = [], array $options = []): Notification
     {
-        return (new static(['project_id' => $project_id, 'user_id' => strval($user_id)]))->_create($attributes, $options);
+        return (new static([
+            'project_id' => $project_id,
+            'user_id' => strval($user_id)
+        ]))->_create($attributes, $options);
     }
 
     /**
@@ -112,7 +129,7 @@ class Notification extends ApiResource
 
         $response = $client->post($this->instanceUrl().'/seen');
 
-        $this->fill(['seen_at' => $response['seen_at']]);
+        $this->seen_at = $response['data']['seen_at'];
     }
 
     /**
@@ -128,7 +145,7 @@ class Notification extends ApiResource
 
         $response = $client->post($this->instanceUrl().'/read');
 
-        $this->fill(['read_at' => $response['read_at']]);
+        $this->read_at = $response['data']['read_at'];
     }
 
     /**
@@ -144,6 +161,6 @@ class Notification extends ApiResource
 
         $response = $client->delete($this->instanceUrl().'/read');
 
-        $this->fill(['read_at' => $response['read_at']]);
+        $this->read_at = $response['data']['read_at'];
     }
 }

@@ -43,20 +43,14 @@ trait All
                         $data = array_reverse($data);   // prepare for `array_pop` later
                     }
 
-                    $instance = new static();
-                    $instance->fill(array_pop($data));
-                    yield $instance;
+                    yield new static(array_pop($data));
                 }
             })->remember();
         } else {
             $data = $client->get($this->listUrl());
 
             return Collection::make($data)->map(function ($item) {
-                /** @var ApiResource $instance */
-                $instance = new static();
-                $instance->fill($item);
-
-                return $instance;
+                return new static($item);
             });
         }
     }

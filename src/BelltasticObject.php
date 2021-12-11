@@ -2,6 +2,7 @@
 
 namespace Belltastic;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 
 abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
@@ -16,6 +17,13 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
         'seen_at',
     ];
 
+    public function __construct($attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+    }
+
     public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->attributes);
@@ -23,7 +31,11 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
 
     public function offsetGet($offset)
     {
-        return $this->attributes[$offset];
+        if ($this->offsetExists($offset)) {
+            return $this->attributes[$offset];
+        }
+
+        return null;
     }
 
     public function offsetSet($offset, $value)
@@ -36,21 +48,50 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
         unset($this->attributes[$offset]);
     }
 
+    public function jsonSerialize()
+    {
+        return json_encode($this->toFlatArray());
+    }
+
+    public function toFlatArray(): array
+    {
+        $attributes = $this->attributes;
+
+        foreach ($attributes as $key => $value) {
+            if ($value instanceof Carbon) {
+                $attributes[$key] = $value->toIso8601String();
+            }
+        }
+
+        return $attributes;
+    }
+
     public function toArray(): array
     {
         return $this->attributes;
     }
 
-    public function jsonSerialize()
+    public function toJson()
     {
-        return json_encode($this->attributes);
+        return $this->jsonSerialize();
     }
 
     public function fill(array $attributes = [])
     {
         foreach ($attributes as $key => $value) {
-            $this->setAttribute($key, $value);
+            if ($this->canBeFilled($key)) {
+                $this->setAttribute($key, $value);
+            }
         }
+    }
+
+    public function canBeFilled($key): bool
+    {
+        if (property_exists($this, 'fillable') && is_array($this->fillable)) {
+            return in_array($key, $this->fillable);
+        }
+
+        return true;
     }
 
     public function setAttribute($key, $value)
@@ -83,6 +124,6 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
 
     public function __set($name, $value)
     {
-        $this->attributes[$name] = $value;
+        $this->setAttribute($name, $value);
     }
 }

@@ -22,8 +22,8 @@ use Illuminate\Support\LazyCollection;
  *
  * @method $this update(array $attributes = [], array $options = []) Update the user with new values.
  * @method void save(array $options = []) Save the user's changes.
- * @method void delete(array $options = []) Archive (soft-delete) the user.
- * @method void forceDelete(array $options = []) Delete the user completely. This will also remove its related notifications. There is no way to restore this data.
+ * @method void archive(array $options = []) Archive (soft-delete) the user.
+ * @method void destroy(array $options = []) Delete the user completely. This will also remove its related notifications. There is no way to restore this data.
  * @method string hmac(string $secret = null) Get the HMAC authorization string for this user.
  */
 class User extends ApiResource
@@ -32,7 +32,15 @@ class User extends ApiResource
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Update;
-    use ApiOperations\Delete;
+    use ApiOperations\Archive;
+    use ApiOperations\Destroy;
+
+    protected $fillable = [
+        'project_id',
+        'name',
+        'email',
+        'avatar_url',
+    ];
 
     protected function listUrl(): string
     {

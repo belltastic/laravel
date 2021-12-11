@@ -21,8 +21,8 @@ use Illuminate\Support\Collection;
  * @method static Project create(array $attributes, array $options = []) Create a new project
  * @method $this update(array $attributes = [], array $options = []) Update the project with new values
  * @method void save(array $options = []) Save the project's changes
- * @method void delete(array $options = []) Archive (soft-delete) the project.
- * @method void forceDelete(array $options = []) Delete the project completely. This will also remove its related users and notifications. There is no way to restore this data.
+ * @method void archive(array $options = []) Archive (soft-delete) the project.
+ * @method void destroy(array $options = []) Delete the project completely. This will also remove its related users and notifications. There is no way to restore this data.
  */
 class Project extends ApiResource
 {
@@ -30,9 +30,17 @@ class Project extends ApiResource
     use ApiOperations\Find;
     use ApiOperations\Create;
     use ApiOperations\Update;
-    use ApiOperations\Delete;
+    use ApiOperations\Archive;
+    use ApiOperations\Destroy;
 
     protected $paginated = false;
+
+    protected $fillable = [
+        'team_id',
+        'name',
+        'default',
+        'hmac_required',
+    ];
 
     protected function listUrl(): string
     {

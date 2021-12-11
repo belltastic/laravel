@@ -11,7 +11,8 @@ abstract class ApiResource extends BelltasticObject
 
     public function __construct($attributes = [], $options = [])
     {
-        $this->fill($attributes);
+        parent::__construct($attributes);
+
         $this->_options = $options;
 
         if (array_key_exists('api_key', $options)) {

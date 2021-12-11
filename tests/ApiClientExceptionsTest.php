@@ -51,19 +51,20 @@ it('throws a Forbidden exception if the user does not have access to the resourc
 });
 
 it('throws a ValidationException if the request does not pass validation', function () {
+    $errors = [
+        'name' => [
+            'The name field is required.',
+        ],
+        'email' => [
+            'The email must be a valid email address.',
+        ],
+        'avatar_url' => [
+            'The avatar url must be a string.',
+        ],
+    ];
     queueMockResponse(422, [
         'message' => 'The given data was invalid.',
-        'errors' => [
-            'name' => [
-                'The name field is required.',
-            ],
-            'email' => [
-                'The email must be a valid email address.',
-            ],
-            'avatar_url' => [
-                'The avatar url must be a string.',
-            ],
-        ],
+        'errors' => $errors,
     ]);
     $client = new ApiClient();
 
@@ -76,20 +77,8 @@ it('throws a ValidationException if the request does not pass validation', funct
 
         // working with errors from the exception
         assertCount(3, $exception->getErrors());
-        assertEquals([
-            'name' => [
-                'The name field is required.',
-            ],
-            'email' => [
-                'The email must be a valid email address.',
-            ],
-            'avatar_url' => [
-                'The avatar url must be a string.',
-            ],
-        ], $exception->getErrors());
-        assertEquals([
-            'The email must be a valid email address.',
-        ], $exception->getErrors('email'));
+        assertEquals($errors, $exception->getErrors());
+        assertEquals(['The email must be a valid email address.'], $exception->getErrors('email'));
         assertTrue($exception->hasError('name'));
         assertFalse($exception->hasError('false_field'));
         assertEquals('The name field is required.', $exception->getFirstError('name'));

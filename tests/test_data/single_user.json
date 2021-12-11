@@ -1,11 +1,12 @@
 {
-    "id": "54a1ef31-5119-3fdc-b98f-9872357e2801",
-    "belltastic_id": 23,
-    "email": "test@example.com",
-    "name": "Test User",
-    "avatar_url": "https:\/\/via.placeholder.com\/80x80.png\/007744?text=test+user",
+    "id": "19a1ef31-5119-3fdc-b98f-9872357e2801",
+    "belltastic_id": 29,
+    "email": "jane@example.com",
+    "name": "Jane Doe",
+    "avatar_url": "https:\/\/via.placeholder.com\/80x80.png\/007744?text=jane+doe",
     "project_id": 1,
-    "unread_notifications_count": 20,
-    "created_at": null,
+    "unread_notifications_count": 40,
+    "created_at": "2021-12-03T10:32:52+00:00",
+    "updated_at": "2021-12-03T10:32:52+00:00",
     "deleted_at": null
 }

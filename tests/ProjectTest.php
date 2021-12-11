@@ -18,9 +18,7 @@ it('can return a single project', function () {
     assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'get', '/api/v1/project/'.$this->singleProjectData['id']);
     expect($project)->toBeInstanceOf(Project::class);
-    foreach ($this->singleProjectData as $key => $value) {
-        expect($project[$key])->toBe($value);
-    }
+    expect($project->toJson())->toBe(json_encode($this->singleProjectData));
 });
 
 it('can return multiple projects', function () {
@@ -36,12 +34,8 @@ it('can return multiple projects', function () {
     assertCount(2, $projects);
     assertInstanceOf(Project::class, $projects[0]);
     assertInstanceOf(Project::class, $projects[1]);
-    foreach ($multipleProjectData[0] as $key => $value) {
-        assertEquals($value, $projects[0][$key]);
-    }
-    foreach ($multipleProjectData[1] as $key => $value) {
-        assertEquals($value, $projects[1][$key]);
-    }
+    assertEquals(json_encode($multipleProjectData[0]), $projects[0]->toJson());
+    assertEquals(json_encode($multipleProjectData[1]), $projects[1]->toJson());
 });
 
 it('can create a new project', function () {
@@ -103,39 +97,36 @@ it('can update a project by calling save() method', function () {
     );
 });
 
-it('can soft delete a project', function () {
+it('can archive a project', function () {
     $project = new Project($this->singleProjectData);
     $deletedAt = now()->micro(0);
     queueMockResponse(200, [
-        'message' => 'Project archived',
+        'message' => 'Project archived.',
         'data' => array_merge($this->singleProjectData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    $project->delete();
+    $project->archive();
 
     assertRequestCount(1);
-    assertRequestIs(getFirstRequest(), 'delete', '/api/v1/project/'.$this->singleProjectData['id'], []);
+    assertRequestIs(getFirstRequest(), 'put', '/api/v1/project/'.$this->singleProjectData['id'].'/archive', []);
     assertEquals($deletedAt, $project->deleted_at);
 });
 
 it('can force delete a project', function () {
     $project = new Project($this->singleProjectData);
     $deletedAt = now()->micro(0);
-    queueMockResponse(200, [
-        'message' => 'Project deleted',
-        'data' => array_merge($this->singleProjectData, ['deleted_at' => $deletedAt->toIso8601String()]),
-    ]);
+    queueMockResponse(200, ['message' => 'Project deleted']);
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    $project->forceDelete();
+    $project->destroy();
 
     assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
         'delete',
         '/api/v1/project/'.$this->singleProjectData['id'],
-        ['force' => true]
+        []
     );
     assertEquals($deletedAt, $project->deleted_at);
 });

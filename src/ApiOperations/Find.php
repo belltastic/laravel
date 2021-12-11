@@ -29,7 +29,9 @@ trait Find
 
         $response = $client->get($this->instanceUrl());
 
-        $this->fill($response);
+        foreach ($response as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
 
         return $this;
     }

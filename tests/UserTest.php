@@ -12,21 +12,19 @@ beforeEach(function () {
     $this->routeBase = '/api/v1/project/' . $this->project_id;
     $this->singleUserData = loadTestFile('test_data/single_user.json');
     $this->singleUserData['project_id'] = $this->project_id;
-    $this->singleUserData['created_at'] = $createdAt;
+    $this->singleUserData['created_at'] = $createdAt->toIso8601String();
 });
 
 it('can retrieve a single user', function () {
     queueMockResponse(200, $this->singleUserData);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user = User::find($this->project_id, $this->singleUserData['id']);
 
     assertRequestCount(1);
     assertRequestIs(getFirstRequest(), 'get', $this->routeBase . '/user/' . $this->singleUserData['id']);
     assertInstanceOf(User::class, $user);
-
-    foreach ($this->singleUserData as $key => $value) {
-        assertEquals($value, $user[$key]);
-    }
+    assertEquals($this->singleUserData, $user->toFlatArray());
 });
 
 it('can retrieve multiple users', function () {
@@ -39,6 +37,7 @@ it('can retrieve multiple users', function () {
         'meta' => [],
     ]);
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $users = User::all($this->project_id);
 
     // Because it's a Lazy collection, the requests won't fire until at least one element
@@ -68,6 +67,7 @@ it('can create a user', function () {
     $userData = ['name' => 'Test name'];
     queueMockResponse(201, array_merge($this->singleUserData, $userData));
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     $user = User::create($this->project_id, $userData);
 
     assertInstanceOf(User::class, $user);
@@ -119,22 +119,22 @@ it('can update user with the save() method', function () {
     );
 });
 
-it('can soft delete a user', function () {
+it('can archive a user', function () {
     $user = new User($this->singleUserData);
     $deletedAt = now()->micro(0);
     queueMockResponse(200, [
-        'message' => 'User archived',
+        'message' => 'User archived.',
         'data' => array_merge($this->singleUserData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    $user->delete();
+    $user->archive();
 
     assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
-        'delete',
-        $this->routeBase . '/user/' . $this->singleUserData['id'],
+        'put',
+        $this->routeBase . '/user/' . $this->singleUserData['id'] . '/archive',
         []
     );
     assertEquals($deletedAt, $user->deleted_at);
@@ -144,19 +144,19 @@ it('can force delete a user', function () {
     $user = new User($this->singleUserData);
     $deletedAt = now()->micro(0);
     queueMockResponse(200, [
-        'message' => 'User deleted',
+        'message' => 'User deleted.',
         'data' => array_merge($this->singleUserData, ['deleted_at' => $deletedAt->toIso8601String()]),
     ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    $user->forceDelete();
+    $user->destroy();
 
     assertRequestCount(1);
     assertRequestIs(
         getFirstRequest(),
         'delete',
         $this->routeBase . '/user/' . $this->singleUserData['id'],
-        ['force' => true]
+        []
     );
     assertEquals($deletedAt, $user->deleted_at);
 });
