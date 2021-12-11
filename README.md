@@ -3,7 +3,6 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/belltastic/laravel.svg?style=flat-square)](https://packagist.org/packages/belltastic/laravel)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/run-tests?label=tests)](https://github.com/belltastic/laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/belltastic/laravel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/belltastic/laravel.svg?style=flat-square)](https://packagist.org/packages/belltastic/laravel)
 
 This package will help you easily send Belltastic notifications to your users. Learn more about Belltastic on [https://belltastic.com](https://belltastic.com)
 
@@ -58,8 +57,8 @@ $project->name = 'New name';
 $project->save();
 
 // Archiving/Deleting a project
-$project->delete();         // archives (soft-deletes). Can be restored later.
-$project->forceDelete();    // permanently delete. No way to restore it.
+$project->archive();    // archives (soft-deletes). Can be restored later.
+$project->destroy();    // permanently delete. No way to restore it.
 
 // Project has many users relation
 $project->users()->all();
@@ -86,8 +85,8 @@ $user->name = 'New user name';
 $user->save();
 
 // Archiving/Deleting a user
-$user->delete();        // archives (soft-deletes). Can be restored later.
-$user->forceDelete();   // permanently delete. No way to restore it.
+$user->archive();   // archives (soft-deletes). Can be restored later.
+$user->destroy();   // permanently delete. No way to restore it.
 
 // Return the HMAC authorization string for this user.
 // Read more about HMAC here: https://belltastic.com/docs/component/hmac.html
@@ -143,8 +142,8 @@ $notification->markAsRead();
 $notification->markAsUnread();
 
 // Archive/Delete a notification
-$notification->delete();        // archives (soft-deletes). Can be restored later.
-$notification->forceDelete();   // permanently delete. No way to restore it.
+$notification->archive();   // archives (soft-deletes). Can be restored later.
+$notification->destroy();   // permanently delete. No way to restore it.
 ```
 
 ## Testing
