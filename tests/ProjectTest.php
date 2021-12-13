@@ -43,7 +43,10 @@ it('can create a new project', function () {
         'name' => 'New Project',
         'default' => true,
     ];
-    queueMockResponse(201, array_merge($this->singleProjectData, $requestData));
+    queueMockResponse(201, [
+        'message' => 'Project created.',
+        'data' => array_merge($this->singleProjectData, $requestData),
+    ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
     $project = Project::create($requestData);
@@ -61,7 +64,10 @@ it('can update a project with the update() method', function () {
         'default' => true,
     ];
     $project = new Project($this->singleProjectData);
-    queueMockResponse(200, array_merge($this->singleProjectData, $newData));
+    queueMockResponse(200, [
+        'message' => 'Project updated.',
+        'data' => array_merge($this->singleProjectData, $newData),
+    ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
     $project->update($newData);
@@ -73,6 +79,8 @@ it('can update a project with the update() method', function () {
         '/api/v1/project/'.$this->singleProjectData['id'],
         array_merge($this->singleProjectData, $newData)
     );
+    assertEquals('Updated name', $project->name);
+    assertEquals(true, $project->default);
 });
 
 it('can update a project by calling save() method', function () {
@@ -81,7 +89,10 @@ it('can update a project by calling save() method', function () {
         'default' => true,
     ];
     $project = new Project($this->singleProjectData);
-    queueMockResponse(200, array_merge($this->singleProjectData, $newData));
+    queueMockResponse(200, [
+        'message' => 'Project updated.',
+        'data' => array_merge($this->singleProjectData, $newData),
+    ]);
 
     $project->name = $newData['name'];
     $project->default = $newData['default'];

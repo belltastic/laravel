@@ -44,20 +44,25 @@ it('can find an individual user from a project', function () {
 it('can create a user from within the project', function () {
     $project = new Project(loadTestFile('test_data/single_project.json'));
     $userData = [
+        'id' => 'new-user-id',
         'name' => 'Test user name',
         'email' => 'testemail@example.com',
     ];
-    queueMockResponse(200, loadTestFile('test_data/single_user.json', $userData));
+    queueMockResponse(404, ['message' => 'User not found.']);
+    queueMockResponse(201, [
+        'message' => 'User created.',
+        'data' => loadTestFile('test_data/single_user.json', $userData),
+    ]);
 
     $user = $project->users()->create($userData);
 
     assertInstanceOf(User::class, $user);
-    assertRequestCount(1);
+    assertRequestCount(2);
     assertRequestIs(
-        getFirstRequest(),
-        'post',
-        '/api/v1/project/'.$project->id.'/users',
-        $userData
+        getLastRequest(),
+        'put',
+        '/api/v1/project/'.$project->id.'/user/'.$userData['id'],
+        array_merge($userData, ['project_id' => $project->id])
     );
     assertEquals($userData['name'], $user->name);
     assertEquals($userData['email'], $user->email);

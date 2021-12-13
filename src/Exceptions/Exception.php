@@ -2,6 +2,6 @@
 
 namespace Belltastic\Exceptions;
 
-class ForbiddenException extends Exception
+class Exception extends \Exception
 {
 }

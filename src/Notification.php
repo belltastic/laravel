@@ -123,13 +123,13 @@ class Notification extends ApiResource
      * @throws GuzzleException
      * @throws Exceptions\ValidationException
      */
-    public function markAsSeen($options = []): void
+    public function markAsSeen($options = []): self
     {
         $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options);
-
         $response = $client->post($this->instanceUrl().'/seen');
+        $this->forceFill($response['data']);
 
-        $this->seen_at = $response['data']['seen_at'];
+        return $this;
     }
 
     /**
@@ -139,13 +139,13 @@ class Notification extends ApiResource
      * @throws Exceptions\UnauthorizedException
      * @throws Exceptions\ValidationException
      */
-    public function markAsRead($options = []): void
+    public function markAsRead($options = []): self
     {
         $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options);
-
         $response = $client->post($this->instanceUrl().'/read');
+        $this->forceFill($response['data']);
 
-        $this->read_at = $response['data']['read_at'];
+        return $this;
     }
 
     /**
@@ -155,12 +155,12 @@ class Notification extends ApiResource
      * @throws Exceptions\UnauthorizedException
      * @throws Exceptions\ValidationException
      */
-    public function markAsUnread($options = []): void
+    public function markAsUnread($options = []): self
     {
         $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options);
-
         $response = $client->delete($this->instanceUrl().'/read');
+        $this->forceFill($response['data']);
 
-        $this->read_at = $response['data']['read_at'];
+        return $this;
     }
 }

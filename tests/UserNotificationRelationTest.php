@@ -48,7 +48,10 @@ it('can create a notification from within the user', function () {
         'title' => 'Test notification title',
         'body' => 'Notification body',
     ];
-    queueMockResponse(200, loadTestFile('test_data/single_notification.json', $notificationData));
+    queueMockResponse(200, [
+        'message' => 'Notification created.',
+        'data' => loadTestFile('test_data/single_notification.json', $notificationData),
+    ]);
 
     $notification = $user->notifications()->create($notificationData);
 

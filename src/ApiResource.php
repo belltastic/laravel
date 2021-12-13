@@ -20,6 +20,11 @@ abstract class ApiResource extends BelltasticObject
         }
     }
 
+    public function toRequestArray(): array
+    {
+        return $this->toFlatArray();
+    }
+
     abstract protected function listUrl(): string;
 
     abstract protected function instanceUrl(): string;

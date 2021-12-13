@@ -2,6 +2,6 @@
 
 namespace Belltastic\Exceptions;
 
-class UnauthorizedException extends \Exception
+class UnauthorizedException extends Exception
 {
 }

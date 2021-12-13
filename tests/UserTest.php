@@ -64,17 +64,27 @@ it('can retrieve multiple users', function () {
 });
 
 it('can create a user', function () {
-    $userData = ['name' => 'Test name'];
-    queueMockResponse(201, array_merge($this->singleUserData, $userData));
+    $userData = ['id' => 'new-id', 'name' => 'Test name'];
+    queueMockResponse(404, ['message' => 'User not found.']);
+    queueMockResponse(201, [
+        'message' => 'User created.',
+        'data' => array_merge($this->singleUserData, $userData),
+    ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
     $user = User::create($this->project_id, $userData);
 
     assertInstanceOf(User::class, $user);
-    assertRequestCount(1);
-    assertRequestIs(getFirstRequest(), 'post', $this->routeBase . '/users', $userData);
+    assertRequestCount(2);
+    assertRequestIs(
+        getLastRequest(),
+        'put',
+        $this->routeBase . '/user/'.$userData['id'],
+        array_merge($userData, ['project_id' => $this->project_id])
+    );
     assertEquals('Test name', $user->name);
     assertEquals($this->project_id, $user->project_id);
+    assertEquals(array_merge($this->singleUserData, $userData), $user->toFlatArray());
 });
 
 it('can update user with the update() method', function () {
@@ -82,7 +92,10 @@ it('can update user with the update() method', function () {
         'name' => 'New name',
         'email' => 'newemail@example.com',
     ];
-    queueMockResponse(200, array_merge($this->singleUserData, $newData));
+    queueMockResponse(200, [
+        'message' => 'User updated.',
+        'data' => array_merge($this->singleUserData, $newData),
+    ]);
     $user = new User($this->singleUserData);
 
     /** @noinspection PhpUnhandledExceptionInspection */
@@ -102,7 +115,10 @@ it('can update user with the save() method', function () {
         'name' => 'New name',
         'email' => 'newemail@example.com',
     ];
-    queueMockResponse(200, array_merge($this->singleUserData, $newData));
+    queueMockResponse(200, [
+        'message ' => 'User updated.',
+        'data' => array_merge($this->singleUserData, $newData),
+    ]);
     $user = new User($this->singleUserData);
 
     $user->name = $newData['name'];

@@ -2,6 +2,9 @@
 
 use Belltastic\Tests\TestCase;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Carbon;
+use function PHPUnit\Framework\assertContains;
+use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotNull;
 
 uses(TestCase::class)->in(__DIR__);
@@ -70,6 +73,17 @@ function assertRequestIs(Request $request = null, string $method = null, string 
     }
 
     if (! is_null($data)) {
-        expect((string) $request->getBody())->toBe(json_encode($data));
+        // let's convert dates to strings
+        $cleanData = [];
+
+        foreach ($data as $key => $value) {
+            if ($value instanceof Carbon) {
+                $cleanData[$key] = $value->toIso8601String();
+            } else {
+                $cleanData[$key] = $value;
+            }
+        }
+
+        assertEquals($cleanData, json_decode((string) $request->getBody(), true));
     }
 }

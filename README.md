@@ -49,7 +49,10 @@ return [
 \Belltastic\Project::find($id);
 
 // Creates a new project
-\Belltastic\Project::create(['name' => 'Test project']);
+\Belltastic\Project::create([
+    'team_id' => 1,         // REQUIRED, we must know which Belltastic team this project belongs to
+    'name' => 'Test project',
+]);
 
 // Update a project, either update() or save()
 $project->update(['name' => 'New name']);
@@ -63,7 +66,10 @@ $project->destroy();    // permanently delete. No way to restore it.
 // Project has many users relation
 $project->users()->all();
 $project->users()->find($user_id);
-$project->users()->create(['id' => $user_id, 'name' => 'Test User']);
+$project->users()->create([
+    'id' => $user_id,       // REQUIRED, must match your system's user ID
+    'name' => 'Test User'
+]);
 ```
 
 ### Interacting with Users
@@ -77,7 +83,10 @@ $project->users()->create(['id' => $user_id, 'name' => 'Test User']);
 
 // Notice how you must provide the ID yourself when creating a user,
 // because it should match the user ID in your system:
-\Belltastic\User::create($project_id, ['id' => $user_id, 'name' => 'Test User']);
+\Belltastic\User::create($project_id, [
+    'id' => $user_id,       // REQUIRED, must match your system's user ID
+    'name' => 'Test User'
+]);
 
 // Updating a user instance, use either update() or save()
 $user->update(['name' => 'New user name']);
@@ -91,7 +100,7 @@ $user->destroy();   // permanently delete. No way to restore it.
 // Return the HMAC authorization string for this user.
 // Read more about HMAC here: https://belltastic.com/docs/component/hmac.html
 $hmac_value = $user->hmac();
-// Or, preferrably without loading a user instance:
+// Or, preferrably without loading a user instance via HTTP call, for speed:
 $hmac_value = \Belltastic\User::hmac($project_id, $user_id);
 
 // User has many notifications relation:

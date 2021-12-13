@@ -30,7 +30,8 @@ trait Update
         $this->fill($attributes);
 
         $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options ?? []);
-        $client->put($this->instanceUrl(), $this->toFlatArray(), $options['headers'] ?? []);
+        $response = $client->put($this->instanceUrl(), $this->toRequestArray(), $options['headers'] ?? []);
+        $this->forceFill($response['data']);
 
         return $this;
     }
@@ -45,6 +46,9 @@ trait Update
     public function save($options = [])
     {
         $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options ?? []);
-        $client->put($this->instanceUrl(), $this->toFlatArray(), $options['headers'] ?? []);
+        $response = $client->put($this->instanceUrl(), $this->toRequestArray(), $options['headers'] ?? []);
+        $this->forceFill($response['data']);
+
+        return $this;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Belltastic;
 
-abstract class Query extends BelltasticObject
+abstract class Query
 {
     /**
      * Class of the destination model

@@ -26,6 +26,8 @@ trait Archive
     {
         $client = new ApiClient($options['api_key'] ?? $this->_apiKey, $options ?? []);
         $response = $client->put($this->instanceUrl().'/archive', $options['headers'] ?? []);
-        $this->deleted_at = $response['data']['deleted_at'];
+        $this->forceFill($response['data']);
+
+        return $this;
     }
 }

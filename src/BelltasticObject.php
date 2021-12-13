@@ -19,9 +19,7 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
 
     public function __construct($attributes = [])
     {
-        foreach ($attributes as $key => $value) {
-            $this->setAttribute($key, $value);
-        }
+        $this->forceFill($attributes);
     }
 
     public function offsetExists($offset): bool
@@ -82,6 +80,13 @@ abstract class BelltasticObject implements \ArrayAccess, \JsonSerializable
             if ($this->canBeFilled($key)) {
                 $this->setAttribute($key, $value);
             }
+        }
+    }
+
+    public function forceFill(array $attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace Belltastic\Exceptions;
 
-class ValidationException extends \Exception
+class ValidationException extends Exception
 {
     /** @var array Validation errors */
     public $errors;

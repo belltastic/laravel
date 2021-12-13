@@ -26,7 +26,7 @@ trait Create
 
         $response = $client->post($this->listUrl(), $attributes, $options['headers'] ?? []);
 
-        return new static($response);
+        return new static($response['data']);
     }
 
     /**

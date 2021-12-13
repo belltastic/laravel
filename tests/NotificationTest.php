@@ -76,7 +76,10 @@ it('can create a new notification', function () {
         'body' => 'The body text of the notification',
         'action_url' => 'https://belltastic.com/register',
     ];
-    queueMockResponse(201, array_merge($this->singleNotificationData, $notificationData));
+    queueMockResponse(201, [
+        'message' => 'Notification created.',
+        'data' => array_merge($this->singleNotificationData, $notificationData),
+    ]);
 
     /** @noinspection PhpUnhandledExceptionInspection */
     $notification = Notification::create($this->project_id, $this->user_id, $notificationData);
@@ -89,7 +92,7 @@ it('can create a new notification', function () {
 
 it('cannot update or save notifications like other objects', function () {
     $notification = new Notification($this->singleNotificationData);
-    queueMockResponse(200, $this->singleNotificationData);
+    queueMockResponse(200, []);
 
     try {
         /** @noinspection PhpUndefinedMethodInspection */
