@@ -103,12 +103,13 @@ class User extends ApiResource
      */
     public static function create($project_id, $attributes = [], array $options = []): User
     {
-        if (!array_key_exists('id', $attributes) || !$attributes['id']) {
+        if (! array_key_exists('id', $attributes) || ! $attributes['id']) {
             throw new Exception('Must provide an "id" attribute for the new user, which should match the ID of the user in your app.');
         }
 
         try {
             $existingUser = self::find($project_id, $attributes['id']);
+
             return $existingUser->update($attributes)->refresh();
         } catch (NotFoundException $exception) {
             //
@@ -116,7 +117,7 @@ class User extends ApiResource
 
         return (new static([
             'id' => $attributes['id'],
-            'project_id' => $project_id
+            'project_id' => $project_id,
         ]))->update($attributes, $options);
     }
 
