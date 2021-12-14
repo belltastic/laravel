@@ -2,6 +2,8 @@
 
 namespace Belltastic\Util;
 
+use Belltastic\Exceptions\MissingSecretException;
+
 abstract class Util
 {
     public static $isMbstringAvailable;
@@ -32,12 +34,21 @@ abstract class Util
         return $value;
     }
 
+    /**
+     * @throws MissingSecretException
+     */
     public static function hmac($project_id, $user_id, $secret = null): string
     {
+        $secret = $secret ?? config('belltastic.projects.'.$project_id.'.secret');
+
+        if (empty(trim($secret))) {
+            throw new MissingSecretException();
+        }
+
         return \base64_encode(\hash_hmac(
             'sha256',
             $project_id . ':' . $user_id,
-            $secret ?? config('belltastic.projects.'.$project_id.'.secret'),
+            $secret,
             true
         ));
     }

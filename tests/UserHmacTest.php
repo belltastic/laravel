@@ -1,6 +1,8 @@
 <?php
 
+use Belltastic\Exceptions\MissingSecretException;
 use Belltastic\User;
+use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
 
@@ -57,4 +59,18 @@ it('can return HMAC from a static method without needing a user instance', funct
         hash_equals($expectedHmac, $actualHmac),
         "The returned '$actualHmac' HMAC value does not match the expected '$expectedHmac' value."
     );
+});
+
+it('throws an error if the secret is not set', function () {
+    config(['belltastic.projects.'.$this->user->project_id.'.secret' => '']);
+
+    try {
+        /** @noinspection */
+        $actualHmac = User::hmac($this->user->project_id, $this->user->id);
+    } catch (MissingSecretException $exception) {
+        assertEquals(MissingSecretException::DEFAULT_MESSAGE, $exception->getMessage());
+        return;
+    }
+
+    $this->fail('Exception was not thrown due to missing secret.');
 });
