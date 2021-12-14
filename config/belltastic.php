@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'base_uri' => 'https://belltastic.com/api/',
+    'base_uri' => 'https://belltastic.com/api/v1/',
 
     'projects' => [
         // this is a configuration for a Belltastic project with ID of 1

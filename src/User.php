@@ -46,12 +46,12 @@ class User extends ApiResource
 
     protected function listUrl(): string
     {
-        return "v1/project/$this->project_id/users";
+        return "project/$this->project_id/users";
     }
 
     protected function instanceUrl(): string
     {
-        return "v1/project/$this->project_id/user/$this->id";
+        return "project/$this->project_id/user/$this->id";
     }
 
     /**

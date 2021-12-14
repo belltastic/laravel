@@ -16,7 +16,7 @@ it('throws Unauthorized exception if not authenticated properly', function () {
     $client = new ApiClient();
 
     try {
-        $client->request('get', 'v1/projects');
+        $client->request('get', 'projects');
         $this->fail('UnauthorizedException was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(UnauthorizedException::class);
@@ -29,7 +29,7 @@ it('throws a NotFound exception if a model was not found', function () {
     $client = new ApiClient();
 
     try {
-        $client->request('get', 'v1/project/123');
+        $client->request('get', 'project/123');
         $this->fail('NotFound exception was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(NotFoundException::class);
@@ -42,7 +42,7 @@ it('throws a Forbidden exception if the user does not have access to the resourc
     $client = new ApiClient();
 
     try {
-        $client->request('get', 'v1/project/123');
+        $client->request('get', 'project/123');
         $this->fail('ForbiddenException exception was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(ForbiddenException::class);
@@ -69,7 +69,7 @@ it('throws a ValidationException if the request does not pass validation', funct
     $client = new ApiClient();
 
     try {
-        $client->request('get', 'v1/project/123');
+        $client->request('get', 'project/123');
         $this->fail('ValidationException exception was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(ValidationException::class);

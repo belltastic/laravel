@@ -23,7 +23,7 @@ These are the contents of the published config file:
 
 ```php
 return [
-    'base_uri' => 'https://belltastic.com/api/',
+    'base_uri' => 'https://belltastic.com/api/v1/',
 
     'projects' => [
         // this is a configuration for a Belltastic project with ID of 1
@@ -39,6 +39,20 @@ return [
 ```
 
 ## Usage
+
+First of all you'll need to provide an API token, which you can get from https://belltastic.com -> "Manage Account" -> "API Tokens".
+The token will have a `user_` prefix.
+
+Once you have the token, you can either set it globally, or on a per-request basis:
+```php
+// Set the API key globally, so you can then interact with all objects as described below.
+\Belltastic\Belltastic::setApiKey('user_YVBpHfvUh...md5Iq');
+
+// Or provide the API key on each request within the last $options param.
+\Belltastic\Project::find(1, ['api_key' => 'user_YVBpHfvUh...md5Iq']);
+\Belltastic\Project::all(['api_key' => 'user_YVBpHfvUh...md5Iq']);
+// etc...
+```
 
 ### Interacting with Projects
 ```php

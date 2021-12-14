@@ -45,12 +45,12 @@ class Notification extends ApiResource
 
     protected function listUrl(): string
     {
-        return "v1/project/$this->project_id/user/$this->user_id/notifications";
+        return "project/$this->project_id/user/$this->user_id/notifications";
     }
 
     protected function instanceUrl(): string
     {
-        return "v1/project/$this->project_id/user/$this->user_id/notification/$this->id";
+        return "project/$this->project_id/user/$this->user_id/notification/$this->id";
     }
 
     /**

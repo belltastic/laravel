@@ -44,12 +44,12 @@ class Project extends ApiResource
 
     protected function listUrl(): string
     {
-        return 'v1/projects';
+        return 'projects';
     }
 
     protected function instanceUrl(): string
     {
-        return "v1/project/$this->id";
+        return "project/$this->id";
     }
 
     public function users(): UsersQuery

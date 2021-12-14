@@ -11,7 +11,7 @@ beforeEach(function () {
 it('expects JSON response', function () {
     $client = new ApiClient('test-token');
 
-    $client->get('v1/projects');
+    $client->get('projects');
 
     assertRequestCount(1);
     $request = getFirstRequest();
@@ -22,7 +22,7 @@ it('expects JSON response', function () {
 it('sends API token in the header', function () {
     $client = new ApiClient('test-token');
 
-    $client->get('v1/projects');
+    $client->get('projects');
 
     assertRequestCount(1);
     $request = getFirstRequest();
@@ -37,7 +37,7 @@ it('can add custom headers on requests', function () {
         ],
     ]);
 
-    $client->get('v1/projects');
+    $client->get('projects');
 
     assertRequestCount(1);
     $request = getFirstRequest();
@@ -49,22 +49,22 @@ it('contains the base URI from configuration if not provided', function () {
     config(['belltastic.base_uri' => 'https://test.example.com']);
     $client = new ApiClient();
 
-    $client->get('v1/projects');
+    $client->get('projects');
 
     assertRequestCount(1);
     $request = getFirstRequest();
     assertEquals('test.example.com', $request->getUri()->getHost());
-    assertEquals('/v1/projects', $request->getUri()->getPath());
+    assertEquals('/projects', $request->getUri()->getPath());
     assertEquals('https', $request->getUri()->getScheme());
 });
 
 it('contains custom base URI if provided', function () {
     config(['belltastic.base_uri' => 'https://test.example.com']);
     $client = new ApiClient('test-token', [
-        'base_uri' => 'http://customwebsite.com/api/',
+        'base_uri' => 'http://customwebsite.com/api/v1',
     ]);
 
-    $client->get('v1/projects');
+    $client->get('projects');
 
     assertRequestCount(1);
     $request = getFirstRequest();
