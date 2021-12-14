@@ -69,6 +69,7 @@ it('throws an error if the secret is not set', function () {
         $actualHmac = User::hmac($this->user->project_id, $this->user->id);
     } catch (MissingSecretException $exception) {
         assertEquals(MissingSecretException::DEFAULT_MESSAGE, $exception->getMessage());
+
         return;
     }
 
