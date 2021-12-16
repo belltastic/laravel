@@ -8,6 +8,7 @@ use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertStringContainsString;
 
 beforeEach(function () {
+    config(['belltastic.api_key' => 'valid-key']);
     $createdAt = now()->subHour()->micro(0);
     $this->project_id = 1;
     $this->user_id = 123;

@@ -3,6 +3,7 @@
 namespace Belltastic;
 
 use Belltastic\Exceptions\ForbiddenException;
+use Belltastic\Exceptions\MissingApiKeyException;
 use Belltastic\Exceptions\NotFoundException;
 use Belltastic\Exceptions\UnauthorizedException;
 use Belltastic\Exceptions\ValidationException;
@@ -27,6 +28,7 @@ class ApiClient
     public function __construct(string $apiKey = null, array $options = [])
     {
         $this->_apiKey = $apiKey;
+
         if (! $this->_apiKey) {
             $this->_apiKey = Belltastic::getApiKey();
         }
@@ -69,6 +71,10 @@ class ApiClient
     public function request(string $method, string $path, array $data = [], array $headers = [])
     {
         $client = $this->getClient();
+
+        if (empty($this->_apiKey)) {
+            throw new MissingApiKeyException();
+        }
 
         try {
             $response = $client->request($method, $path, [

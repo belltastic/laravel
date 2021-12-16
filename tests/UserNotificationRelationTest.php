@@ -6,6 +6,10 @@ use Illuminate\Support\LazyCollection;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 
+beforeEach(function () {
+    config(['belltastic.api_key' => 'valid-key']);
+});
+
 it('can list all notifications from the user object', function () {
     $user = new User(loadTestFile('test_data/single_user.json'));
     $notificationsData = loadTestFile('test_data/multiple_notifications.json');

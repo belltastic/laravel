@@ -2,8 +2,10 @@
 
 namespace Belltastic;
 
+use Belltastic\Channels\BelltasticChannel;
 use GuzzleHttp\Client;
 use Spatie\LaravelPackageTools\Package;
+use Illuminate\Support\Facades\Notification;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class BelltasticServiceProvider extends PackageServiceProvider
@@ -24,6 +26,10 @@ class BelltasticServiceProvider extends PackageServiceProvider
     {
         $this->app->bind('belltastic-api-client', function () {
             return new Client();
+        });
+
+        Notification::extend('belltastic', function () {
+            return new BelltasticChannel();
         });
     }
 }

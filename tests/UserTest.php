@@ -7,6 +7,7 @@ use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 
 beforeEach(function () {
+    config(['belltastic.api_key' => 'valid-key']);
     $createdAt = now()->subHour()->micro(0);
     $this->project_id = 1;
     $this->routeBase = '/api/v1/project/' . $this->project_id;
