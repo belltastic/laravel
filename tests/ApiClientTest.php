@@ -96,6 +96,7 @@ it('throws an exception if no api key is present anywhere', function () {
         assertInstanceOf(MissingApiKeyException::class, $exception);
         assertEquals('API key not set. Please set the "belltastic.api_key" configuration value, '
             .'or use \Belltastic\Belltastic::setApiKey($key) method before making requests.', $exception->getMessage());
+
         return;
     }
 

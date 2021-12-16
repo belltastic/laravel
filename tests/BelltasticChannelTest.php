@@ -2,8 +2,6 @@
 
 namespace Belltastic\Tests;
 
-use Belltastic\Tests\Stubs\AppUser;
-
 beforeEach(function () {
     config(['belltastic.api_key' => 'valid-key']);
     $this->notificationData = loadTestFile('test_data/single_notification.json');

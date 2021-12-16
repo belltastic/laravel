@@ -4,8 +4,8 @@ namespace Belltastic;
 
 use Belltastic\Channels\BelltasticChannel;
 use GuzzleHttp\Client;
-use Spatie\LaravelPackageTools\Package;
 use Illuminate\Support\Facades\Notification;
+use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class BelltasticServiceProvider extends PackageServiceProvider
