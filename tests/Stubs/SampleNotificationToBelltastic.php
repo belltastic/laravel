@@ -19,6 +19,12 @@ class SampleNotificationToBelltastic extends Notification
         return ['belltastic'];
     }
 
+    /**
+     * Get the contents of the notification
+     *
+     * @param  $notifiable
+     * @return \Belltastic\Notification|array
+     */
     public function toBelltastic($notifiable)
     {
         return $this->toBelltastic;
