@@ -3,6 +3,21 @@
 return [
     'base_uri' => 'https://belltastic.com/api/v1/',
 
+    /**
+     * Owner API key that you can retrieve from here:
+     * @link https://belltastic.com/user/api-tokens
+     *
+     * This will be the token used by default, unless otherwise provided
+     * in the $options parameter for Belltastic models.
+     */
+    'api_key' => env('BELLTASTIC_API_KEY'),
+
+    /**
+     * A list of Belltastic projects that this app interacts with.
+     *
+     * By default, and in most cases, you only need one project and its
+     * secret in order to generate valid HMAC authorization tokens.
+     */
     'projects' => [
         // this is a configuration for a Belltastic project with ID of 1
         env('BELLTASTIC_PROJECT_ID', '1') => [

@@ -13,6 +13,6 @@ class Belltastic
 
     public static function getApiKey()
     {
-        return static::$apiKey;
+        return static::$apiKey ?? config('belltastic.api_key');
     }
 }

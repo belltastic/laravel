@@ -6,6 +6,10 @@ use Illuminate\Support\LazyCollection;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 
+beforeEach(function () {
+    config(['belltastic.api_key' => 'valid-key']);
+});
+
 it('can list all users from the project object', function () {
     $project = new Project(loadTestFile('test_data/single_project.json'));
     $usersData = loadTestFile('test_data/multiple_users.json');

@@ -6,6 +6,7 @@ use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 
 beforeEach(function () {
+    config(['belltastic.api_key' => 'valid-key']);
     $this->singleProjectData = loadTestFile('test_data/single_project.json');
 });
 

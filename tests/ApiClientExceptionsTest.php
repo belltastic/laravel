@@ -11,6 +11,10 @@ use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertNull;
 use function PHPUnit\Framework\assertTrue;
 
+beforeEach(function () {
+    config(['belltastic.api_key' => 'valid-key']);
+});
+
 it('throws Unauthorized exception if not authenticated properly', function () {
     queueMockResponse(401, ['message' => 'Unauthenticated. With a custom message.']);
     $client = new ApiClient();
