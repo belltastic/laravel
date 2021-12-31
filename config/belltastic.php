@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'base_uri' => 'https://belltastic.com/api/v1/',
+    'base_uri' => env('BELLTASTIC_API_URL', 'https://belltastic.com/api/v1/'),
 
     /**
-     * Owner API key that you can retrieve from here:
+     * Owner API key (starts with user_...) that you can retrieve from here:
      * @link https://belltastic.com/user/api-tokens
      *
      * This will be the token used by default, unless otherwise provided

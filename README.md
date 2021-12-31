@@ -25,10 +25,10 @@ These are the contents of the published config file:
 <?php
 
 return [
-    'base_uri' => 'https://belltastic.com/api/v1/',
+    'base_uri' => env('BELLTASTIC_API_URL', 'https://belltastic.com/api/v1/'),
 
     /**
-     * Owner API key that you can retrieve from here:
+     * Owner API key (starts with user_...) that you can retrieve from here:
      * @link https://belltastic.com/user/api-tokens
      *
      * This will be the token used by default, unless otherwise provided
@@ -60,7 +60,7 @@ Best and easiest way to send notifications to the Belltastic component is via La
 
 ### 1. Get the API key
 
-First of all you'll need to provide an API token, which you can get from https://belltastic.com -> "Manage Account" -> "API Tokens".
+First of all you'll need to provide an API token, which you can get from the [API Tokens](https://belltastic.com/user/api-tokens) page.
 The token will have a `user_` prefix.
 
 Put it in your `.env` file like so:
@@ -74,12 +74,6 @@ In order for Laravel Notifications to know how to route the Belltastic notificat
 `routeNotificationForBelltastic()` method on your User model:
 
 ```php
-<?php
-
-namespace App\Models;
-
-use Illuminate\Contracts\Auth\Authenticatable;
-
 class User extends Authenticatable
 {
     // ...
@@ -105,7 +99,9 @@ class User extends Authenticatable
 }
 ```
 
-### 3. Use Laravel Notifications
+### 3. Send using Laravel Notifications
+
+_**NOTE**: there's also another way to send the notifications without utilising Laravel's Notifications. Read more about it in the next section._
 
 If you're already utilising [Laravel Notifications](https://laravel.com/docs/8.x/notifications) in your project, changing them to send to Belltastic is as easy
 as adding the `'belltastic'` channel.
@@ -121,12 +117,6 @@ class SampleNotification extends Notification
 In order to define the contents of the notification, you can either implement the `toArray($notifiable)` or the `toBelltastic($notifiable)` (will take priority, if exists) methods:
 
 ```php
-<?php
-
-namespace App\Notifications;
-
-use Illuminate\Notifications\Notification;
-
 class SampleNotification extends Notification
 {
     public function via($notifiable)
@@ -175,7 +165,7 @@ Once you have set up both the User model and one or more Laravel Notifications, 
 $user->notify(new SampleNotification());
 ```
 
-### 3. (alternative) Use the \Belltastic\Notification model
+### 3. Send using the \Belltastic\Notification model
 
 If you don't want to use Laravel Notifications, you can simply call `Belltastic\Notification::create()` to send a new notification from any place in your code:
 ```php
@@ -209,10 +199,8 @@ You can read more about it in the [Interacting with Notifications](#Interacting-
 
 Sometimes you'll need a more fine-grained control over your data at Belltastic. For this, you can utilise common operations on the Belltastic models that you can interact with in a familiar manner.
 
-First of all you'll need to provide an API token, which you can get from https://belltastic.com -> "Manage Account" -> "API Tokens".
-The token will have a `user_` prefix.
+By default, any operations will use the API key provided in the `belltastic.api_key` configuration value. If you would like to use a different API key, you can set it like so:
 
-Once you have the token, you can either set it globally, or on a per-request basis:
 ```php
 // Set the API key globally, so you can then interact with all objects as described below.
 \Belltastic\Belltastic::setApiKey('user_YVBpHfvUh...md5Iq');
