@@ -6,8 +6,8 @@ class MissingSecretException extends Exception
 {
     public const DEFAULT_MESSAGE = 'Please provide the Project Secret in order to calculate HMAC value.';
 
-    public function __construct($message = null, $code = 0, \Throwable $previous = null)
+    public function __construct($message = null)
     {
-        parent::__construct($message ?: self::DEFAULT_MESSAGE, $code, $previous);
+        parent::__construct($message ?: self::DEFAULT_MESSAGE);
     }
 }

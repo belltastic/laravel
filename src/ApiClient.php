@@ -91,15 +91,16 @@ class ApiClient
                 $body = json_decode((string) $response->getBody(), true);
 
                 if ($response->getStatusCode() === 401) {
-                    throw new UnauthorizedException($body['message'] ?? $exception->getMessage());
+                    throw new UnauthorizedException($body['message'] ?: $exception->getMessage(), $exception->getRequest());
                 } elseif ($response->getStatusCode() === 403) {
-                    throw new ForbiddenException($body['message'] ?? $exception->getMessage());
+                    throw new ForbiddenException($body['message'] ?: $exception->getMessage(), $exception->getRequest());
                 } elseif ($response->getStatusCode() === 404) {
-                    throw new NotFoundException($body['message'] ?? $exception->getMessage());
+                    throw new NotFoundException($body['message'] ?: $exception->getMessage(), $exception->getRequest());
                 } elseif ($response->getStatusCode() === 422) {
                     throw new ValidationException(
-                        $body['message'] ?? $exception->getMessage(),
-                        $body['errors'] ?? []
+                        $body['message'] ?: $exception->getMessage(),
+                        $body['errors'] ?? [],
+                        $exception->getRequest()
                     );
                 }
             }

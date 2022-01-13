@@ -2,14 +2,17 @@
 
 namespace Belltastic\Exceptions;
 
+use Psr\Http\Message\RequestInterface;
+
 class ValidationException extends Exception
 {
     /** @var array Validation errors */
     public $errors;
 
-    public function __construct($message = "", array $errors = [])
+    public function __construct($message = "", array $errors = [], RequestInterface $request = null)
     {
-        parent::__construct($message);
+        parent::__construct($message, $request);
+
         $this->errors = $errors;
     }
 
