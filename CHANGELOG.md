@@ -6,6 +6,6 @@ All notable changes to `belltastic/laravel` will be documented in this file.
 
 Added a custom Laravel Notification Channel `belltastic`. Please see the [README.md](https://github.com/belltastic/laravel) for more information on how to use it.
 
-## 1.0.0 - 2021-12-03
+## v0.1 - 2021-12-03
 
 - initial release
