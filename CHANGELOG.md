@@ -2,6 +2,11 @@
 
 All notable changes to `belltastic/laravel` will be documented in this file.
 
+## v0.3.1 - 2022-01-13
+
+Included more verbose exception messages for easier debugging of the setup.
+You can disable these verbose messages by setting `belltastic.verbose_exceptions` configuration value to `false`
+
 ## v0.2 - 2021-12-17
 
 Added a custom Laravel Notification Channel `belltastic`. Please see the [README.md](https://github.com/belltastic/laravel) for more information on how to use it.
