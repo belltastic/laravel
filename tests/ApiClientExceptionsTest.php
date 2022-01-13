@@ -24,7 +24,7 @@ it('throws Unauthorized exception if not authenticated properly', function () {
         $this->fail('UnauthorizedException was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(UnauthorizedException::class);
-        expect($exception->getMessage())->toBe('Unauthenticated. With a custom message.');
+        expect($exception->getMessage())->toContain('Unauthenticated. With a custom message.');
     }
 });
 
@@ -37,7 +37,7 @@ it('throws a NotFound exception if a model was not found', function () {
         $this->fail('NotFound exception was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(NotFoundException::class);
-        expect($exception->getMessage())->toBe('Model not found.');
+        expect($exception->getMessage())->toContain('Model not found.');
     }
 });
 
@@ -50,7 +50,7 @@ it('throws a Forbidden exception if the user does not have access to the resourc
         $this->fail('ForbiddenException exception was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(ForbiddenException::class);
-        expect($exception->getMessage())->toBe('Forbidden. You do not have the required permissions.');
+        expect($exception->getMessage())->toContain('Forbidden. You do not have the required permissions.');
     }
 });
 
@@ -77,7 +77,7 @@ it('throws a ValidationException if the request does not pass validation', funct
         $this->fail('ValidationException exception was not thrown.');
     } catch (\Exception $exception) {
         expect($exception)->toBeInstanceOf(ValidationException::class);
-        expect($exception->getMessage())->toBe('The given data was invalid.');
+        expect($exception->getMessage())->toContain('The given data was invalid.');
 
         // working with errors from the exception
         assertCount(3, $exception->getErrors());
