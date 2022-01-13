@@ -19,7 +19,7 @@ class Exception extends \Exception
         $token = Str::replace('Bearer ', '', optional($request)->getHeaderLine('authorization'));
         $this->token = Str::limit($token, 10, '****');
 
-        if (!empty($this->getUrl())) {
+        if (! empty($this->getUrl())) {
             $message .= "\nRequest URL: " . $this->getUrl();
             $message .= ' (with API token ' . $this->getToken() . ')';
         }
