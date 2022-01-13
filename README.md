@@ -37,6 +37,13 @@ return [
     'api_key' => env('BELLTASTIC_API_KEY'),
 
     /**
+     * Verbose exceptions will contain more information about the request in the exception
+     * message. The request URL and the beginning of an API token used (user_zx312****)
+     * will be added for easier debugging of configuration.
+     */
+    'verbose_exceptions' => true,
+
+    /**
      * A list of Belltastic projects that this app interacts with.
      *
      * By default, and in most cases, you only need one project and its
