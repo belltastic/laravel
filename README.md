@@ -15,7 +15,9 @@
 - [Learn how to **customise the component**](https://belltastic.com/docs/component/styling.html)
 - [Learn how to **send notifications**](https://belltastic.com/docs/component/sending-notifications.html)
 
-This package will help you easily send Belltastic notifications to your users. Learn more about Belltastic on [https://belltastic.com](https://belltastic.com)
+### About this package
+
+This [Composer](https://packagist.org/packages/belltastic/laravel) package will help you easily send [Belltastic](https://belltastic.com) notifications from your [Laravel](https://laravel.com/) app to your users. Check out the links above to learn how to set up the component before you begin sending notifications.
 
 ## Installation
 
