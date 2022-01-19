@@ -1,8 +1,19 @@
-# Belltastic Notifications for Laravel
+# Belltastic for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/belltastic/laravel.svg?style=flat-square)](https://packagist.org/packages/belltastic/laravel)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/run-tests?label=tests)](https://github.com/belltastic/laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/belltastic/laravel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+
+<img width="677" alt="Belltastic web component" src="https://user-images.githubusercontent.com/8697942/150183408-8058365c-bb2c-4025-8dd4-7003caa2c016.png">
+
+**Belltastic** is a pre-built web component to display in-app notifications. Copy the code snippet to your website, plug in a few props, and your users will have a fully-functional, real-time notifications drawer.
+
+### Useful links:
+
+- [Sign up for a **free account**](https://belltastic.com)
+- [Learn how to **set up the component**](https://belltastic.com/docs/component/#installing-the-component)
+- [Learn how to **customise the component**](https://belltastic.com/docs/component/styling.html)
+- [Learn how to **send notifications**](https://belltastic.com/docs/component/sending-notifications.html)
 
 This package will help you easily send Belltastic notifications to your users. Learn more about Belltastic on [https://belltastic.com](https://belltastic.com)
 
@@ -14,12 +25,12 @@ You can install the package via composer:
 composer require belltastic/laravel
 ```
 
-You can publish the config file with:
+And then publish the config file with:
 ```bash
 php artisan vendor:publish --tag="belltastic-config"
 ```
 
-These are the contents of the published config file:
+For reference, here are the contents of the published config file:
 
 ```php
 <?php
@@ -67,7 +78,7 @@ Best and easiest way to send notifications to the Belltastic component is via La
 
 ### 1. Get the API key
 
-First of all you'll need to provide an API token, which you can get from the [API Tokens](https://belltastic.com/user/api-tokens) page.
+First of all you'll need to get an API token, so you can securely communicate with our servers and access your data. You can get the token from the [API Tokens](https://belltastic.com/user/api-tokens) page.
 The token will have a `user_` prefix.
 
 Put it in your `.env` file like so:
@@ -75,16 +86,16 @@ Put it in your `.env` file like so:
 BELLTASTIC_API_KEY="user_xxxxxxxxxxxxxxxxxxx"
 ```
 
-### 2. Set up your User model
+### 2a (using Laravel Notifications) Set up your User model
 
-In order for Laravel Notifications to know how to route the Belltastic notifications, you must implement the
+_**NOTE**: there's also another way to send the notifications without utilising Laravel's Notifications. Read more about it in the [2b section](#2b-send-using-the-belltasticnotification-model)._
+
+In order for Laravel to know where to send the notifications, you must implement the
 `routeNotificationForBelltastic()` method on your User model:
 
 ```php
 class User extends Authenticatable
 {
-    // ...
-
     /**
      * Get a Belltastic User to route this notification to.
      *
@@ -97,7 +108,7 @@ class User extends Authenticatable
             'project_id' => 1,
         ]);
 
-        // Alternatively, you can also just return a plain array:
+        // Alternatively, you can return a plain array
         return [
             'id' => $this->id,
             'project_id' => 1,
@@ -106,9 +117,7 @@ class User extends Authenticatable
 }
 ```
 
-### 3. Send using Laravel Notifications
-
-_**NOTE**: there's also another way to send the notifications without utilising Laravel's Notifications. Read more about it in the next section._
+### 3a. (using Laravel Notifications) Sending notifications
 
 If you're already utilising [Laravel Notifications](https://laravel.com/docs/8.x/notifications) in your project, changing them to send to Belltastic is as easy
 as adding the `'belltastic'` channel.
@@ -172,26 +181,26 @@ Once you have set up both the User model and one or more Laravel Notifications, 
 $user->notify(new SampleNotification());
 ```
 
-### 3. Send using the \Belltastic\Notification model
+### 2b. Send using the \Belltastic\Notification model
 
 If you don't want to use Laravel Notifications, you can simply call `Belltastic\Notification::create()` to send a new notification from any place in your code:
 ```php
-// creates a new notification
+// creates and sends a new notification
 \Belltastic\Notification::create($project_id, $user_id, [
     // [required|string]
-    // title of the notification, displayed in bolder text: 
+    // title of the notification, displayed in bolder text
     'title' => 'New comment on your post "Laravel Basics"',
     
     // [nullable|string]
-    // body of the notification, smaller text:
+    // body of the notification, smaller text
     'body' => 'Joe Belltastic has left a comment on your post. Click here to see more.',
     
     // [nullable|string]
-    // link to an icon/avatar to display next to notification:
+    // link to an icon/avatar to display next to notification
     'icon' => null,
     
     // [nullable|string]
-    // link to visit when the user clicks a notification:
+    // link to visit when the user clicks a notification
     'action_url' => 'https://example-blog.com/posts/1234?comments',
     
     // [nullable|string]
