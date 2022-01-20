@@ -1,3 +1,7 @@
+<p align="center">
+    <img width="260" src="https://belltastic.com/images/BelltasticLight.svg" />
+</p>
+
 # Belltastic for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/belltastic/laravel.svg?style=flat-square)](https://packagist.org/packages/belltastic/laravel)
@@ -14,7 +18,11 @@
 
 This [Composer](https://packagist.org/packages/belltastic/laravel) package will help you easily send [Belltastic](https://belltastic.com) notifications from your [Laravel](https://laravel.com/) app to your users. Check out the links above to learn how to set up the component before you begin sending notifications.
 
-### Useful links:
+## Laravel Version Compatibility
+
+This package requires at least **PHP 7.3** and **Laravel 8**.
+
+## Links
 
 - [Sign up for a **free account**](https://belltastic.com)
 - [Learn how to **set up the component**](https://belltastic.com/docs/component/#installing-the-component)
