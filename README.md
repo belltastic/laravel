@@ -4,9 +4,15 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/run-tests?label=tests)](https://github.com/belltastic/laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/belltastic/laravel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/belltastic/laravel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 
-<img width="677" alt="Belltastic web component" src="https://user-images.githubusercontent.com/8697942/150183408-8058365c-bb2c-4025-8dd4-7003caa2c016.png">
-
 **Belltastic** is a pre-built web component to display in-app notifications. Copy the code snippet to your website, plug in a few props, and your users will have a fully-functional, real-time notifications drawer.
+
+<p align="center">
+<img width="677" alt="Belltastic web component" src="https://user-images.githubusercontent.com/8697942/150183408-8058365c-bb2c-4025-8dd4-7003caa2c016.png">
+</p>
+
+### About this package
+
+This [Composer](https://packagist.org/packages/belltastic/laravel) package will help you easily send [Belltastic](https://belltastic.com) notifications from your [Laravel](https://laravel.com/) app to your users. Check out the links above to learn how to set up the component before you begin sending notifications.
 
 ### Useful links:
 
@@ -14,10 +20,6 @@
 - [Learn how to **set up the component**](https://belltastic.com/docs/component/#installing-the-component)
 - [Learn how to **customise the component**](https://belltastic.com/docs/component/styling.html)
 - [Learn how to **send notifications**](https://belltastic.com/docs/component/sending-notifications.html)
-
-### About this package
-
-This [Composer](https://packagist.org/packages/belltastic/laravel) package will help you easily send [Belltastic](https://belltastic.com) notifications from your [Laravel](https://laravel.com/) app to your users. Check out the links above to learn how to set up the component before you begin sending notifications.
 
 ## Installation
 
