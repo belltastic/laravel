@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="260" src="https://belltastic.com/images/BelltasticLight.svg" />
+    <img width="260" src="https://belltastic.com/images/BelltasticDark.svg" />
 </p>
 
 # Belltastic for Laravel
