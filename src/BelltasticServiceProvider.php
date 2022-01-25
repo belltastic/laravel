@@ -47,7 +47,8 @@ class BelltasticServiceProvider extends PackageServiceProvider
                     'email' => $user->email,
                 ])."'";
             }
-return <<<COMP
+
+            return <<<COMP
 <belltastic-notifications
     api-key="$api_key"
     project-id="$project_id"
