@@ -20,6 +20,11 @@ return [
     'verbose_exceptions' => true,
 
     /**
+     * The default Belltastic project ID. This will be used by the Blade directives
+     */
+    'default_project' => env('BELLTASTIC_PROJECT_ID', '1'),
+
+    /**
      * A list of Belltastic projects that this app interacts with.
      *
      * By default, and in most cases, you only need one project and its
@@ -28,10 +33,17 @@ return [
     'projects' => [
         // this is a configuration for a Belltastic project with ID of 1
         env('BELLTASTIC_PROJECT_ID', '1') => [
+            // The Project-specific API key for this project. You can get it from
+            // your Project Settings page in Belltastic
+            'api_key' => env('BELLTASTIC_PROJECT_API_KEY', ''),
+
             // The secret is used to calculate User HMAC values with $user->hmac() method.
             'secret' => env('BELLTASTIC_PROJECT_SECRET', ''),
         ],
 
-        // add more projects if needed
+        // env('BELLTASTIC_SECOND_PROJECT_ID') => [
+        //     'api_key' => env('BELLTASTIC_SECOND_PROJECT_API_KEY'),
+        //     'secret'  => env('BELLTASTIC_SECOND_PROJECT_SECRET'),
+        // ],
     ]
 ];
