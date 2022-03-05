@@ -2,6 +2,10 @@
 
 All notable changes to `belltastic/laravel` will be documented in this file.
 
+## v0.4.1 - 2022-03-05
+
+- Laravel 9 support
+
 ## v0.4 - 2022-01-25
 
 - **[Feature]** Added `@belltasticComponent` Blade directive to easily add the web component to your Laravel projects
