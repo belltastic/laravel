@@ -2,6 +2,11 @@
 
 All notable changes to `belltastic/laravel` will be documented in this file.
 
+## v0.4 - 2022-01-25
+
+- **[Feature]** Added `@belltasticComponent` Blade directive to easily add the web component to your Laravel projects
+- **[Change]** Updated the `config/belltastic.php` configuration file with additional settings for default project ID, and the project's individual API token.
+
 ## v0.3.1 - 2022-01-13
 
 Included more verbose exception messages for easier debugging of the setup.
